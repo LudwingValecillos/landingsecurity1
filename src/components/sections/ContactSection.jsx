@@ -13,197 +13,197 @@ const ContactSection = () => {
   const [submitStatus, setSubmitStatus] = useState({ type: "", message: "" });
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setSubmitStatus({ type: "", message: "" });
+//     e.preventDefault();
+//     setIsSubmitting(true);
+//     setSubmitStatus({ type: "", message: "" });
 
-    try {
-      // Prepare the email data for Sendinblue API
-      const emailData = {
-        sender: {
-          name: formData.nombre,
-          email: "ludwingvaldev@gmail.com",
-        },
-        to: [
-          {
-            email: "emietchebarne@gmail.com",
-            name: "Receptor",
-          },
-        ],
-        subject: `Solicitud de cotización: ${formData.tipo_servicio}`,
-        htmlContent: `
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nueva solicitud de cotización</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
-      margin: 0;
-      padding: 0;
-      background-color: #f9f9f9;
-    }
-    .container {
-      max-width: 600px;
-      margin: 0 auto;
-      padding: 20px;
-      background-color: #ffffff;
-      border-radius: 5px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    }
-    .header {
-      text-align: center;
-      padding-bottom: 20px;
-      border-bottom: 1px solid #eeeeee;
-    }
-    .logo {
-      max-width: 150px;
-      margin-bottom: 15px;
-    }
-    h1 {
-      color: #2980B9;
-      margin: 0;
-      font-size: 24px;
-      font-weight: 600;
-    }
-    .content {
-      padding: 20px 0;
-    }
-    .info-box {
-      background-color: #f5f9fc;
-      border-left: 4px solid #2980B9;
-      padding: 15px;
-      margin-bottom: 20px;
-      border-radius: 0 4px 4px 0;
-    }
-    .info-item {
-      margin-bottom: 12px;
-      display: flex;
-    }
-    .info-label {
-      font-weight: bold;
-      width: 100px;
-      color: #555555;
-    }
-    .info-value {
-      flex: 1;
-    }
-    .message-box {
-      border-radius: 4px;
-      padding: 15px;
-      margin-top: 20px;
-    }
-    .message-label {
-      font-weight: bold;
-      color: #2980B9;
-      margin-bottom: 10px;
-    }
-    .footer {
-      text-align: center;
-      padding-top: 20px;
-      border-top: 1px solid #eeeeee;
-      font-size: 12px;
-      color: #999999;
-    }
-    .button {
-      display: inline-block;
-      background-color: #2980B9;
-      color: white;
-      text-decoration: none;
-      padding: 10px 20px;
-      border-radius: 4px;
-      margin-top: 20px;
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <div class="header">
-      <!-- Puedes reemplazar esto con la URL de tu logo -->
-      <!-- <img src="https://tuempresa.com/logo.png" alt="Logo" class="logo"> -->
-      <h1>Nueva Solicitud de Cotización</h1>
-    </div>
+//     try {
+//       // Prepare the email data for Sendinblue API
+//       const emailData = {
+//         sender: {
+//           name: formData.nombre,
+//           email: "ludwingvaldev@gmail.com",
+//         },
+//         to: [
+//           {
+//             email: "emietchebarne@gmail.com",
+//             name: "Receptor",
+//           },
+//         ],
+//         subject: `Solicitud de cotización: ${formData.tipo_servicio}`,
+//         htmlContent: `
+// <!DOCTYPE html>
+// <html>
+// <head>
+//   <meta charset="UTF-8">
+//   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+//   <title>Nueva solicitud de cotización</title>
+//   <style>
+//     body {
+//       font-family: Arial, sans-serif;
+//       line-height: 1.6;
+//       margin: 0;
+//       padding: 0;
+//       background-color: #f9f9f9;
+//     }
+//     .container {
+//       max-width: 600px;
+//       margin: 0 auto;
+//       padding: 20px;
+//       background-color: #ffffff;
+//       border-radius: 5px;
+//       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+//     }
+//     .header {
+//       text-align: center;
+//       padding-bottom: 20px;
+//       border-bottom: 1px solid #eeeeee;
+//     }
+//     .logo {
+//       max-width: 150px;
+//       margin-bottom: 15px;
+//     }
+//     h1 {
+//       color: #2980B9;
+//       margin: 0;
+//       font-size: 24px;
+//       font-weight: 600;
+//     }
+//     .content {
+//       padding: 20px 0;
+//     }
+//     .info-box {
+//       background-color: #f5f9fc;
+//       border-left: 4px solid #2980B9;
+//       padding: 15px;
+//       margin-bottom: 20px;
+//       border-radius: 0 4px 4px 0;
+//     }
+//     .info-item {
+//       margin-bottom: 12px;
+//       display: flex;
+//     }
+//     .info-label {
+//       font-weight: bold;
+//       width: 100px;
+//       color: #555555;
+//     }
+//     .info-value {
+//       flex: 1;
+//     }
+//     .message-box {
+//       border-radius: 4px;
+//       padding: 15px;
+//       margin-top: 20px;
+//     }
+//     .message-label {
+//       font-weight: bold;
+//       color: #2980B9;
+//       margin-bottom: 10px;
+//     }
+//     .footer {
+//       text-align: center;
+//       padding-top: 20px;
+//       border-top: 1px solid #eeeeee;
+//       font-size: 12px;
+//       color: #999999;
+//     }
+//     .button {
+//       display: inline-block;
+//       background-color: #2980B9;
+//       color: white;
+//       text-decoration: none;
+//       padding: 10px 20px;
+//       border-radius: 4px;
+//       margin-top: 20px;
+//     }
+//   </style>
+// </head>
+// <body>
+//   <div class="container">
+//     <div class="header">
+//       <!-- Puedes reemplazar esto con la URL de tu logo -->
+//       <!-- <img src="https://tuempresa.com/logo.png" alt="Logo" class="logo"> -->
+//       <h1>Nueva Solicitud de Cotización</h1>
+//     </div>
     
-    <div class="content">
-      <p>Se ha recibido una nueva solicitud de cotización con los siguientes detalles:</p>
+//     <div class="content">
+//       <p>Se ha recibido una nueva solicitud de cotización con los siguientes detalles:</p>
       
-      <div class="info-box">
-        <div class="info-item">
-          <div class="info-label">Nombre:</div>
-          <div class="info-value">${formData.nombre}</div>
-        </div>
-        <div class="info-item">
-          <div class="info-label">Email:</div>
-          <div class="info-value">${formData.email}</div>
-        </div>
-        <div class="info-item">
-          <div class="info-label">Teléfono:</div>
-          <div class="info-value">${formData.telefono}</div>
-        </div>
-      </div>
+//       <div class="info-box">
+//         <div class="info-item">
+//           <div class="info-label">Nombre:</div>
+//           <div class="info-value">${formData.nombre}</div>
+//         </div>
+//         <div class="info-item">
+//           <div class="info-label">Email:</div>
+//           <div class="info-value">${formData.email}</div>
+//         </div>
+//         <div class="info-item">
+//           <div class="info-label">Teléfono:</div>
+//           <div class="info-value">${formData.telefono}</div>
+//         </div>
+//       </div>
       
-      <div class="message-box">
-        <div class="message-label">Mensaje del cliente:</div>
-        <div>${formData.mensaje.replace(/\n/g, '<br>')}</div>
-      </div>
+//       <div class="message-box">
+//         <div class="message-label">Mensaje del cliente:</div>
+//         <div>${formData.mensaje.replace(/\n/g, '<br>')}</div>
+//       </div>
       
-      <center>
-        <a href="mailto:${formData.email}" class="button">Responder al cliente</a>
-      </center>
-    </div>
+//       <center>
+//         <a href="mailto:${formData.email}" class="button">Responder al cliente</a>
+//       </center>
+//     </div>
     
-    <div class="footer">
-      <p>Este es un correo automático, por favor no responda directamente a este mensaje.</p>
-      <p>&copy; ${new Date().getFullYear()} Seguridad Pro. Todos los derechos reservados.</p>
-    </div>
-  </div>
-</body>
-</html>
-`
-      };
+//     <div class="footer">
+//       <p>Este es un correo automático, por favor no responda directamente a este mensaje.</p>
+//       <p>&copy; ${new Date().getFullYear()} Seguridad Pro. Todos los derechos reservados.</p>
+//     </div>
+//   </div>
+// </body>
+// </html>
+// `
+//       };
 
-      // Send the email using Sendinblue API
-      const response = await fetch("https://api.sendinblue.com/v3/smtp/email", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "api-key": "api" // Replace with environment variable in production
-        },
-        body: JSON.stringify(emailData),
-      });
+//       // Send the email using Sendinblue API
+//       const response = await fetch("https://api.sendinblue.com/v3/smtp/email", {
+//         method: "POST",
+//         headers: {
+//           "Content-Type": "application/json",
+//           "api-key": "api" // Replace with environment variable in production
+//         },
+//         body: JSON.stringify(emailData),
+//       });
 
-      const result = await response.json();
+//       const result = await response.json();
 
-      if (response.ok) {
-        setSubmitStatus({
-          type: "success",
-          message:
-            "Mensaje enviado con éxito. Nos comunicaremos contigo pronto.",
-        });
-        // Reset form
-        setFormData({
-          nombre: "",
-          email: "",
-          telefono: "",
-          mensaje: "",
-          tipo_servicio: "camaras",
-        });
-      } else {
-        throw new Error(result.message || "Error al enviar el mensaje");
-      }
-    } catch (error) {
-      console.error("Error al enviar el formulario:", error);
-      setSubmitStatus({
-        type: "error",
-        message:
-          "Hubo un problema al enviar el mensaje. Por favor intenta nuevamente.",
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
+//       if (response.ok) {
+//         setSubmitStatus({
+//           type: "success",
+//           message:
+//             "Mensaje enviado con éxito. Nos comunicaremos contigo pronto.",
+//         });
+//         // Reset form
+//         setFormData({
+//           nombre: "",
+//           email: "",
+//           telefono: "",
+//           mensaje: "",
+//           tipo_servicio: "camaras",
+//         });
+//       } else {
+//         throw new Error(result.message || "Error al enviar el mensaje");
+//       }
+//     } catch (error) {
+//       console.error("Error al enviar el formulario:", error);
+//       setSubmitStatus({
+//         type: "error",
+//         message:
+//           "Hubo un problema al enviar el mensaje. Por favor intenta nuevamente.",
+//       });
+//     } finally {
+//       setIsSubmitting(false);
+//     }
   };
 
   const handleChange = (e) => {
