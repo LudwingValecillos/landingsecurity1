@@ -11,7 +11,6 @@ const ContactSection = () => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState({ type: "", message: "" });
-  const api = process.env.REACT_APP_API;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -171,7 +170,7 @@ const ContactSection = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "api-key": api // Replace with environment variable in production
+          "api-key": "api" // Replace with environment variable in production
         },
         body: JSON.stringify(emailData),
       });
