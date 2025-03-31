@@ -152,7 +152,7 @@ const NVRSection = () => {
               >
                 <span className="w-3 h-3 bg-purple-400 rounded-full animate-ping"></span>
                 <span className="text-sm font-medium text-white bg-black/50 px-3 py-1.5 rounded-full backdrop-blur-sm">
-                  AI Powered
+                  Garantía de 6 meses
                 </span>
               </motion.div>
 
