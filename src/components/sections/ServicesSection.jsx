@@ -16,15 +16,24 @@ const ServicesSection = () => {
         "Acceso: Monitoreo remoto desde tu celular.",
         "Instalacion: En 24 a 48 horas.",
         "Garantia: 6 mes.",
-        "Ideal para: Hohares pequeños o espacios reducidos.",
+        "Ideal para: Hogares pequeños o espacios reducidos.",
       ],
       icon: (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-  <path d="M12 2L2 7l10 5 10-5-10-5z" />
-  <path d="M12 13L2 18l10 5 10-5-10-5z" />
-  <circle cx="12" cy="12" r="8" fill="#CD7F32" />
-  <path d="M12 12L12 16" stroke="#1A1D23" stroke-width="2" />
-</svg>
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M12 2L2 7l10 5 10-5-10-5z" />
+          <path d="M12 13L2 18l10 5 10-5-10-5z" />
+          <circle cx="12" cy="12" r="8" fill="#CD7F32" />
+          <path d="M12 12L12 16" stroke="#1A1D23" stroke-width="2" />
+        </svg>
       ),
       color: "#CD7F32",
       delay: 0,
@@ -34,21 +43,30 @@ const ServicesSection = () => {
       image: image4,
       description:
         "Centro de monitoreo activo las 24 horas con personal capacitado",
-        features: [
-          "Camaras: 4 camaras de seuridad.",
-          "Acceso: Monitoreo remoto + grabación en DVR.",
-          "Instalacion: En 24 a 48 horas.",
-          "Garantia: 6 meses.",
-          "Ideal para: Viviendas grandes o pequeños comercios.",
-        ],
+      features: [
+        "Camaras: 4 camaras de seuridad.",
+        "Acceso: Monitoreo remoto + grabación en DVR.",
+        "Instalacion: En 24 a 48 horas.",
+        "Garantia: 6 meses.",
+        "Ideal para: Viviendas grandes o pequeños comercios.",
+      ],
       icon: (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-  <path d="M12 2L2 7l10 5 10-5-10-5z" />
-  <path d="M12 13L2 18l10 5 10-5-10-5z" />
-  <circle cx="12" cy="12" r="8" fill="#B1B1B1" />
-  <path d="M12 12L12 16" stroke="#1A1D23" stroke-width="2" />
-  <path d="M12 12L16 12" stroke="#1A1D23" stroke-width="2" />
-</svg>
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M12 2L2 7l10 5 10-5-10-5z" />
+          <path d="M12 13L2 18l10 5 10-5-10-5z" />
+          <circle cx="12" cy="12" r="8" fill="#B1B1B1" />
+          <path d="M12 12L12 16" stroke="#1A1D23" stroke-width="2" />
+          <path d="M12 12L16 12" stroke="#1A1D23" stroke-width="2" />
+        </svg>
       ),
       color: "#B1B1B1",
       delay: 100,
@@ -58,38 +76,52 @@ const ServicesSection = () => {
       image: image3,
       description:
         "Sistemas de alarma con sensores de movimiento y conexión a la app",
-        features: [
-          "Camaras: 8 camaras de seuridad.",
-          "Acceso: Monitoreo remoto + grabación en la nube.",
-          "Instalacion: En 24 a 48 horas.",
-          "Garantia: 6 meses.",
-          "Ideal para: Empresas y quienes buscan maxima seguridad.",
-        ],
+      features: [
+        "Camaras: 8 camaras de seuridad.",
+        "Acceso: Monitoreo remoto + grabación en la nube.",
+        "Instalacion: En 24 a 48 horas.",
+        "Garantia: 6 meses.",
+        "Ideal para: Empresas y quienes buscan maxima seguridad.",
+      ],
       icon: (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M12 2L2 7l10 5 10-5-10-5z" />
-        <path d="M12 13L2 18l10 5 10-5-10-5z" />
-        <circle cx="12" cy="12" r="8" fill="#FFD700" />
-        <path d="M12 12L12 16" stroke="#1A1D23" stroke-width="2" />
-        <path d="M12 12L16 12" stroke="#1A1D23" stroke-width="2" />
-        <path d="M12 12L8 12" stroke="#1A1D23" stroke-width="2" />
-      </svg>
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M12 2L2 7l10 5 10-5-10-5z" />
+          <path d="M12 13L2 18l10 5 10-5-10-5z" />
+          <circle cx="12" cy="12" r="8" fill="#FFD700" />
+          <path d="M12 12L12 16" stroke="#1A1D23" stroke-width="2" />
+          <path d="M12 12L16 12" stroke="#1A1D23" stroke-width="2" />
+          <path d="M12 12L8 12" stroke="#1A1D23" stroke-width="2" />
+        </svg>
       ),
       color: "#FFD700",
       delay: 200,
     },
   ];
   const handleMasInformacion = (plan) => {
-    const numeroTelefono = '+5491123900395';
+    const numeroTelefono = "+5491123900395";
     const mensaje = `Hola, estoy interesado en el ${plan}, me darias mas informacion?.`;
-  
+
     // Utiliza la API de WhatsApp para enviar el mensaje
-    const url = `https://wa.me/${numeroTelefono}?text=${encodeURIComponent(mensaje)}`;
-    window.open(url, '_blank');
+    const url = `https://wa.me/${numeroTelefono}?text=${encodeURIComponent(
+      mensaje
+    )}`;
+    window.open(url, "_blank");
   };
 
   return (
-    <section className="py-20 text-white relative overflow-hidden" id="servicios">
+    <section
+      className="py-20 text-white relative overflow-hidden"
+      id="servicios"
+    >
       {/* Background Image with Overlay */}
       <div
         className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat transform scale-105 animate-subtle-zoom"
@@ -162,8 +194,8 @@ const ServicesSection = () => {
                     {service.features.map((feature, idx) => (
                       <li
                         key={idx}
-                        className="flex items-center gap-2  text-white/70 
-                        transform transition-all duration-300 hover:translate-x-2 group-hover:text-white"
+                        className="flex items-center gap-2  text-white
+                        transform transition-all duration-300 hover:translate-x-2 group-hover:text-white lg:text-lg"
                       >
                         <svg
                           className="w-10 h-10 text-[#2980B9]"
@@ -185,27 +217,27 @@ const ServicesSection = () => {
 
                   {/* Botón */}
                   <button
-  className="w-full bg-[#2980B9] text-white px-6 py-3 rounded-lg text-sm 
+                    className="w-full bg-[#2980B9] text-white px-6 py-3 rounded-lg text-sm 
   transform transition-all duration-500 
   hover:bg-white hover:text-[#2980B9] hover:scale-105 hover:shadow-lg
   group-hover:translate-y-0 flex items-center justify-center gap-2"
-  onClick={() => handleMasInformacion(service.title)}
->
-  <span>Más información</span>
-  <svg
-    className="w-4 h-4 transform transition-transform duration-300 group-hover:translate-x-1"
-    fill="none"
-    stroke="currentColor"
-    viewBox="0 0 24 24"
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={2}
-      d="M13 7l5 5m0 0l-5 5m5-5H6"
-    />
-  </svg>
-</button>
+                    onClick={() => handleMasInformacion(service.title)}
+                  >
+                    <span>Más información</span>
+                    <svg
+                      className="w-4 h-4 transform transition-transform duration-300 group-hover:translate-x-1"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M13 7l5 5m0 0l-5 5m5-5H6"
+                      />
+                    </svg>
+                  </button>
                 </div>
               </div>
             </div>

@@ -7,7 +7,7 @@ const FAQSection = () => {
   const faqs = [
     {
       question: "¿Cuánto dura la instalación?",
-      answer: "Dependiendo del paquete, puede realizarse entre 24 y 48 horas.",
+      answer: "Dependiendo del paquete, la instalación y programación puede durar de 1 a 3 horas.",
     },
     {
       question: "¿Las cámaras tienen garantía?",

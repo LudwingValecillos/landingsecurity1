@@ -9,6 +9,9 @@ import {
   MicrophoneIcon,
   CloudArrowUpIcon,
   DevicePhoneMobileIcon,
+  CloudIcon,
+  ShieldExclamationIcon,
+  SunIcon,
 } from "@heroicons/react/24/outline";
 
 const EquipmentSection = () => {
@@ -62,12 +65,12 @@ const EquipmentSection = () => {
       iconColor: "text-orange-500",
     },
     {
-      icon: MicrophoneIcon,
-      name: "Audio bidireccional",
-      description: "Comunicación",
-      delay: 600,
-      color: "from-pink-400 to-pink-600",
-      iconColor: "text-pink-500",
+      "icon": SunIcon,
+      "name": "Resistencia a la Intemperie",
+      "description": "Durabilidad exterior",
+      "delay": 600,
+      "color": "from-pink-400 to-pink-600",
+      "iconColor": "text-pink-500"
     },
     {
       icon: CloudArrowUpIcon,

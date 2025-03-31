@@ -11,6 +11,7 @@ import ProjectsSection from "./sections/ProjectsSection";
 import FAQSection from "./sections/FAQSection";
 import ContactSection from "./sections/ContactSection";
 import WhatsAppButton from "./WhatsAppButton";
+import NVRSection from "./sections/NVRSection";
 
 const SecurityLandingPage = () => {
   useEffect(() => {
@@ -26,6 +27,7 @@ const SecurityLandingPage = () => {
         <HeroSection />
         <AboutSection />
         <ServicesSection />
+        <NVRSection />
         <EquipmentSection />
         <ProjectsSection />
         <FAQSection />

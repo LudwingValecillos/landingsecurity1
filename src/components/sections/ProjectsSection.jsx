@@ -113,25 +113,26 @@ const ProjectsSection = () => {
     {
       name: "Juan M.",
       rating: 5,
-      text: "La instalación fue súper rápida y el soporte técnico excelente. Ahora monitoreo mi casa desde mi celular sin problemas.",
+      text: "Instalaron todo rapidísimo y el soporte fue de diez. Ahora veo mi casa desde el celu sin drama.",
       position: "Cliente Residencial",
       plan: "Plan Premium"
     },
     {
       name: "Laura G.",
       rating: 5,
-      text: "Contraté el Plan Intermedio para mi negocio y funciona de maravilla. Recomendados 100%.",
+      text: "Puse el Plan Intermedio en mi negocio y anda perfecto. Los recomiendo con los ojos cerrados.",
       position: "Dueña de Negocio",
       plan: "Plan Intermedio"
     },
     {
       name: "Carlos R.",
       rating: 5,
-      text: "Las cámaras tienen una gran calidad y la instalación fue impecable. Muy satisfecho con el servicio.",
+      text: "Las cámaras se ven genial y dejaron todo impecable. Muy contento con el servicio.",
       position: "Cliente Corporativo",
       plan: "Plan Premium"
     }
-  ];
+];
+
 
   const renderStars = (rating) => {
     const stars = [];

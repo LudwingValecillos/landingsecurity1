@@ -30,7 +30,7 @@ const AboutSection = () => {
             data-aos="fade-up"
             data-aos-delay="300"
           >
-            <p className="text-white text-center">
+            <p className="text-white text-center lg:text-xl">
               Nos encargamos de la instalación de cámaras de seguridad con
               técnicos especializados, garantizando un servicio profesional y
               eficiente. Contamos con diferentes planes según tus necesidades y
@@ -62,7 +62,7 @@ const AboutSection = () => {
 
           {/* Content */}
           <div
-            className="w-full md:w-1/2 flex flex-col justify-center"
+            className="w-full md:w-1/2 flex flex-col justify-center lg:text-2xl "
             data-aos="fade-left"
             data-aos-duration="800"
           >
@@ -96,7 +96,7 @@ const AboutSection = () => {
         </div>
 
         {/* Second Feature: Service */}
-        <div className="flex flex-col md:flex-row-reverse mb-8 max-w-5xl mx-auto">
+        <div className="flex flex-col md:flex-row-reverse mb-8 max-w-5xl mx-auto lg:text-2xl">
           {/* Image */}
           <div
             className="w-full md:w-1/2 md:pl-6 mb-4 md:mb-0"
@@ -164,8 +164,8 @@ const AboutSection = () => {
           >
             <UserGroupIcon className="w-6 h-6 text-blue-600" />
             <div className="flex flex-col">
-              <span className="text-sm font-bold text-gray-800">+1000</span>
-              <span className="text-xs text-gray-600">Clientes</span>
+              <span className="text-sm lg:text-base font-bold text-gray-800">+1000</span>
+              <span className="text-xs lg:text-sm text-gray-600">Clientes</span>
             </div>
           </div>
 
@@ -176,8 +176,8 @@ const AboutSection = () => {
           >
             <ClockIcon className="w-6 h-6 text-blue-600" />
             <div className="flex flex-col">
-              <span className="text-sm font-bold text-gray-800">5 Años</span>
-              <span className="text-xs text-gray-600">Experiencia</span>
+              <span className="text-sm lg:text-base font-bold text-gray-800">5 Años</span>
+              <span className="text-xs lg:text-sm text-gray-600">Experiencia</span>
             </div>
           </div>
 
@@ -188,8 +188,8 @@ const AboutSection = () => {
           >
             <ShieldCheckIcon className="w-6 h-6 text-blue-600" />
             <div className="flex flex-col">
-              <span className="text-sm font-bold text-gray-800">100%</span>
-              <span className="text-xs text-gray-600">Seguridad</span>
+              <span className="text-sm lg:text-base font-bold text-gray-800">100%</span>
+              <span className="text-xs lg:text-sm text-gray-600">Seguridad</span>
             </div>
           </div>
         </div>
