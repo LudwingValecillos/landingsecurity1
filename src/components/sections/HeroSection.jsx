@@ -82,7 +82,7 @@ const HeroSection = () => {
         className="container mx-auto px-4 relative z-10"
       >
         <div className="flex justify-center items-center lg:justify-normal">
-        <img src={logo} alt="" data-aos="fade-up" className="w-80 "/>
+          <img src={logo} alt="" data-aos="fade-up" className="w-80 " />
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
@@ -131,8 +131,8 @@ const HeroSection = () => {
                 transform transition-all duration-300 hover:shadow-lg hover:shadow-[#2980B9]/30
                 flex items-center justify-center gap-2 group"
                 onClick={() => {
-                  const contactoDiv = document.getElementById('contacto');
-                  contactoDiv.scrollIntoView({ behavior: 'smooth' });
+                  const contactoDiv = document.getElementById("contacto");
+                  contactoDiv.scrollIntoView({ behavior: "smooth" });
                 }}
               >
                 <span>Contáctanos</span>
@@ -158,8 +158,8 @@ const HeroSection = () => {
                 transform transition-all duration-300 hover:bg-white/20
                 flex items-center justify-center gap-2 group"
                 onClick={() => {
-                  const serviciosDiv = document.getElementById('servicios');
-                  serviciosDiv.scrollIntoView({ behavior: 'smooth' });
+                  const serviciosDiv = document.getElementById("servicios");
+                  serviciosDiv.scrollIntoView({ behavior: "smooth" });
                 }}
               >
                 <span>Ver Servicios</span>
