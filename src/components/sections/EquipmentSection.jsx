@@ -5,12 +5,8 @@ import {
   ShieldCheckIcon,
   FingerPrintIcon,
   BellAlertIcon,
-  FireIcon,
-  MicrophoneIcon,
   CloudArrowUpIcon,
   DevicePhoneMobileIcon,
-  CloudIcon,
-  ShieldExclamationIcon,
   SunIcon,
 } from "@heroicons/react/24/outline";
 

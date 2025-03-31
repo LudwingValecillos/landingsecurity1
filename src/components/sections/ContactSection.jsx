@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import contactImage from "../../assets/images/cv.avif";
 import face from "../../assets/images/facebook-color-svgrepo-com.svg";
 import insta from "../../assets/images/instagram-1-svgrepo-com.svg";
-import social from "../../assets/images/social-svgrepo-com.svg";
 
 const ContactSection = () => {
   const [formData, setFormData] = useState({
@@ -35,7 +34,7 @@ const ContactSection = () => {
         },
         to: [
           {
-            email: "ludwingval@gmail.com",
+            email: "admin@tiendamstore.com",
             name: "Admin",
           },
         ],
