@@ -12,7 +12,7 @@ const ServicesSection = () => {
       description:
         "Instalación de cámaras IP y CCTV de alta definición con visión nocturna",
       features: [
-        "Camaras: 2 camaras de seuridad.",
+        "Camaras: 2 camaras de seguridad.",
         "Acceso: Monitoreo remoto desde tu celular.",
         "Instalacion: En 24 a 48 horas.",
         "Garantia: 6 mes.",
@@ -44,7 +44,7 @@ const ServicesSection = () => {
       description:
         "Centro de monitoreo activo las 24 horas con personal capacitado",
       features: [
-        "Camaras: 4 camaras de seuridad.",
+        "Camaras: 4 camaras de seguridad.",
         "Acceso: Monitoreo remoto + grabación en DVR.",
         "Instalacion: En 24 a 48 horas.",
         "Garantia: 6 meses.",
@@ -77,7 +77,7 @@ const ServicesSection = () => {
       description:
         "Sistemas de alarma con sensores de movimiento y conexión a la app",
       features: [
-        "Camaras: 8 camaras de seuridad.",
+        "Camaras: 8 camaras de seguridad.",
         "Acceso: Monitoreo remoto + grabación en la nube.",
         "Instalacion: En 24 a 48 horas.",
         "Garantia: 6 meses.",
