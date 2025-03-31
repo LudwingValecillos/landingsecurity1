@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import contactImage from "../../assets/images/cv.avif";
 import face from "../../assets/images/facebook-color-svgrepo-com.svg";
 import insta from "../../assets/images/instagram-1-svgrepo-com.svg";
@@ -15,8 +15,14 @@ const ContactSection = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState({ type: "", message: "" });
 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const BREVO_API_KEY =
+      window._env_?.REACT_APP_BREVO_API_KEY ||
+      process.env.REACT_APP_BREVO_API_KEY;
+
     setIsSubmitting(true);
     setSubmitStatus({ type: "", message: "" });
 
@@ -29,7 +35,7 @@ const ContactSection = () => {
         },
         to: [
           {
-            email: "admin@tiendamstore.com",
+            email: "ludwingval@gmail.com",
             name: "Admin",
           },
         ],
@@ -53,7 +59,7 @@ const ContactSection = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "api-key": import.meta.env.VITE_BREVO_API_KEY,
+          "api-key": BREVO_API_KEY,
         },
         body: JSON.stringify(emailData),
       });
