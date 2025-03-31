@@ -26,7 +26,7 @@ const EquipmentSection = () => {
     },
     {
       icon: VideoCameraIcon,
-      name: "DVR/NVR",
+      name: "NVR",
       description: "Grabación 24/7",
       delay: 100,
       color: "from-purple-400 to-purple-600",
