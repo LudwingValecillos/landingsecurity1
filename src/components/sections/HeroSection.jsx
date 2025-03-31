@@ -47,6 +47,8 @@ const HeroSection = () => {
           backgroundImage: `url(${heroImage})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
+          maxWidth: "100vw",
+          overflow: "hidden",
         }}
       />
 
@@ -56,12 +58,14 @@ const HeroSection = () => {
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
         className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent"
+        style={{ maxWidth: "100vw", overflow: "hidden" }}
       />
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1, delay: 0.2 }}
         className="absolute inset-0 bg-gradient-to-b from-transparent via-black/30 to-black/80"
+        style={{ maxWidth: "100vw", overflow: "hidden" }}
       />
 
       {/* Animated Background Pattern */}
@@ -79,10 +83,16 @@ const HeroSection = () => {
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="container mx-auto px-4 relative z-10"
+        className="container mx-auto px-4 relative z-10 w-full max-w-full"
       >
         <div className="flex justify-center items-center lg:justify-normal">
-          <img src={logo} alt="" data-aos="fade-up" className="w-80 " />
+          <img
+            src={logo}
+            alt=""
+            data-aos="fade-up"
+            className="w-64 sm:w-80 max-w-full h-auto"
+            style={{ maxWidth: "100%" }}
+          />
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">

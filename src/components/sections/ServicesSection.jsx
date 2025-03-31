@@ -127,29 +127,37 @@ const ServicesSection = () => {
         className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat transform scale-105 animate-subtle-zoom"
         style={{
           backgroundImage: `url(${bgImage})`,
+          maxWidth: "100vw",
+          overflow: "hidden",
         }}
       />
-      <div className="absolute inset-0 bg-black/30 animate-fade-in" />
+      <div
+        className="absolute inset-0 bg-black/30 animate-fade-in"
+        style={{ maxWidth: "100vw", overflow: "hidden" }}
+      />
 
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-10">
-        <div className="absolute inset-0 bg-grid-white/[0.2] bg-[length:20px_20px] animate-subtle-zoom"></div>
+        <div
+          className="absolute inset-0 bg-grid-white/[0.2] bg-[length:20px_20px] animate-subtle-zoom"
+          style={{ maxWidth: "100vw", overflow: "hidden" }}
+        ></div>
       </div>
 
-      <div className="container mx-auto px-4 relative z-10">
+      <div className="container mx-auto px-4 relative z-10 w-full max-w-full">
         <h2
-          className="text-4xl text-wrap md:text-5xl font-light text-center mb-16 hover:text-shadow-glow transition-all duration-300"
+          className="text-3xl sm:text-4xl md:text-5xl font-light text-center mb-16 hover:text-shadow-glow transition-all duration-300"
           data-aos="fade-down"
           data-aos-duration="1000"
         >
           Ofrecemos tres planes diferentes según la necesidad de nuestros
           clientes.
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-8">
           {services.map((service, index) => (
             <div
               key={index}
-              className="relative group"
+              className="relative group w-full max-w-full"
               data-aos="fade-up"
               data-aos-delay={service.delay}
               data-aos-duration="1000"
@@ -157,7 +165,8 @@ const ServicesSection = () => {
               <div
                 className="relative overflow-hidden rounded-xl shadow-2xl bg-black/80 backdrop-blur-sm 
                 transform transition-all duration-500 group-hover:scale-105 group-hover:shadow-2xl 
-                group-hover:shadow-[#2980B9]/20 border border-white/10 group-hover:border-white/30"
+                group-hover:shadow-[#2980B9]/20 border border-white/10 group-hover:border-white/30
+                w-full max-w-full"
               >
                 {/* Imagen Principal */}
                 <div className="relative h-48 overflow-hidden">
@@ -166,6 +175,7 @@ const ServicesSection = () => {
                     alt={service.title}
                     className="w-full h-full object-cover transform transition-all duration-700 
                     group-hover:scale-110 group-hover:brightness-75"
+                    style={{ maxWidth: "100%" }}
                   />
                   <div
                     className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/50 to-transparent 

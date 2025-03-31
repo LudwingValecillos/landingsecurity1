@@ -28,7 +28,7 @@ const NVRSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.6 }}
             >
-              <h2 className="text-5xl font-light text-white mb-4 hover:text-blue-400 transition-colors duration-300">
+              <h2 className="text-3xl lg:text-5xl font-light text-white mb-4 hover:text-blue-400 transition-colors duration-300">
                 ¿Qué es un NVR y por qué es importante?
               </h2>
               <p className="text-white lg:text-xl leading-relaxed hover:text-blue-200 transition-colors duration-300">
