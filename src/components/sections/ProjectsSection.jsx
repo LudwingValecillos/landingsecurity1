@@ -78,7 +78,7 @@
 
 // export default ProjectsSection;
 import React, { useEffect } from "react";
-import image from "../../assets/images/puertomadero2.jpg";
+import image from "../../assets/images/puertomadero.jpg";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
