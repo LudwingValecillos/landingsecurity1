@@ -1,5 +1,5 @@
 import React from "react";
-import bgImage from "../../assets/images/puertomadero.jpg";
+import bgImage from "../../assets/images/puertomadero2.jpg";
 import image1 from "../../assets/images/Tipos-de-Cámaras.webp";
 import image3 from "../../assets/images/instalacion-camaras-seguridad.jpg";
 import image4 from "../../assets/images/seguridad.jpg";
