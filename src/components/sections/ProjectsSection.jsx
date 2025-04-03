@@ -162,12 +162,12 @@ const ProjectsSection = () => {
       data-aos="fade-in"
       data-aos-duration="1000"
     >
-      <div className="absolute inset-0 bg-black/70 transition-opacity duration-500"></div>
+      <div className="absolute inset-0 bg-black/20 transition-opacity duration-500"></div>
       
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-16">
           <h2
-            className="text-4xl font-light text-blue-200 mb-4 transition-all duration-300 hover:scale-105 hover:text-blue-200"
+            className="text-4xl font-light text-blue-100 mb-4 transition-all duration-300 hover:scale-105 hover:text-blue-200"
             data-aos="fade-down"
             data-aos-duration="1000"
           >
@@ -186,8 +186,8 @@ const ProjectsSection = () => {
           {testimonials.map((testimonial, index) => (
             <div
               key={index}
-              className="bg-white/15 backdrop-blur-md p-8 rounded-xl shadow-xl border border-white/20 h-full flex flex-col 
-                         transition-all duration-300 hover:scale-103 hover:bg-white/20 hover:shadow-2xl"
+              className="bg-black/40 backdrop-blur-md p-8 rounded-xl shadow-xl border border-white/20 h-full flex flex-col 
+                         transition-all duration-300 hover:scale-103 hover:bg-black/50 hover:shadow-2xl"
               data-aos="zoom-in"
               data-aos-delay={index * 150}
             >

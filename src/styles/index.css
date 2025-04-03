@@ -43,6 +43,11 @@ code {
     padding-left: 0.75rem;
     padding-right: 0.75rem;
   }
+
+  /* Mobile background image positioning - adjusted to be less extreme */
+  .bg-right-mobile {
+    background-position: 20% center !important;
+  }
 }
 
 .text-teal {

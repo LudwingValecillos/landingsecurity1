@@ -124,11 +124,12 @@ const ServicesSection = () => {
     >
       {/* Background Image with Overlay */}
       <div
-        className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat transform scale-105 animate-subtle-zoom"
+        className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat transform scale-105 animate-subtle-zoom lg:left-0 bg-right-mobile"
         style={{
           backgroundImage: `url(${bgImage})`,
           maxWidth: "100vw",
           overflow: "hidden",
+          backgroundPosition: "center right",
         }}
       />
       <div
