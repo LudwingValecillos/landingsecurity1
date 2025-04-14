@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "nombre": "iPhone 14 Pro",
+    "descripcion": "Pantalla OLED 6.1'', 128GB, Cámara triple",
+    "precio": 1100,
+    "imagen": "iphone14pro.jpg",
+    "activo": true
+  },
+  {
+    "id": 2,
+    "nombre": "iPhone 13",
+    "descripcion": "Pantalla Super Retina XDR, Chip A15 Bionic, 128GB",
+    "precio": 800,
+    "imagen": "iphone13.jpg",
+    "activo": true
+  }
+]
