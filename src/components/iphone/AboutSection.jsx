@@ -6,7 +6,6 @@ import {
   ClockIcon,
 } from "@heroicons/react/24/outline";
 import aboutImage1 from "../../assets/images/fotterimnag.png";
-import aboutImage2 from "../../assets/images/casa.jpg"; // Reemplaza con imagen del equipo o espacio físico
 import gif from "../../assets/images/giphy.webp";
 
 const AboutSection = () => {
@@ -15,24 +14,111 @@ const AboutSection = () => {
       <div className="container mx-auto px-4">
         {/* Título y descripción general */}
         <div
-          className="text-center mb-12"
+          className="text-center mb-12 relative overflow-hidden"
           data-aos="fade-down"
           data-aos-duration="800"
         >
+          {/* Fondos difuminados para efecto cromado */}
+
           <h2
-            className="text-3xl lg:text-4xl font-bold text-white mb-4"
+            className="text-3xl lg:text-4xl font-bold mb-4 relative"
             data-aos="zoom-in"
             data-aos-delay="200"
+            style={{
+              color: "white",
+              textShadow: "0 2px 6px rgba(0, 0, 0, 0.3)",
+            }}
           >
-            Somos <span className="text-[#87CDEF] font-bold">M-STORE</span>
+            👋 Somos{" "}
+            <span
+              style={{
+                display: "inline-block",
+                position: "relative",
+                backgroundImage:
+                  "linear-gradient(180deg, #c0e3f2 0%, #87CDEF 50%, #5ba9c9 100%)",
+                WebkitBackgroundClip: "text",
+                backgroundClip: "text",
+                color: "transparent",
+                fontWeight: "800",
+                textShadow: "none",
+                filter: "drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3))",
+                padding: "0 4px",
+              }}
+            >
+              M-STORE
+              {/* Capa para brillos cromados */}
+              <span
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: "50%",
+                  background:
+                    "linear-gradient(180deg, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0) 100%)",
+                  WebkitBackgroundClip: "text",
+                  backgroundClip: "text",
+                  color: "transparent",
+                  pointerEvents: "none",
+                }}
+              >
+                M-STORE
+              </span>
+            </span>
           </h2>
+
           <div
-            className="max-w-3xl mx-auto bg-[#87CDEF]/90 rounded-lg p-6 mb-6"
+            className="max-w-3xl mx-auto rounded-lg p-6 mb-6 relative"
             data-aos="fade-up"
             data-aos-delay="300"
+            style={{
+              background:
+                "linear-gradient(135deg, rgba(37, 99, 235, 0.9) 0%, rgba(29, 78, 216, 0.9) 100%)",
+              boxShadow: "0 8px 24px rgba(0, 0, 0, 0.2)",
+              overflow: "hidden",
+            }}
           >
-            <p className="text-white text-center lg:text-xl">
-              En <span className="text-[#16536d] font-bold">M-STORE</span> reinventamos la experiencia de comprar celulares. Nuestro compromiso es ofrecerte productos exclusivos y atención premium para que disfrutes lo mejor de la tecnología iPhone.
+            {/* Efectos de brillo cromado para el recuadro */}
+            <div
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                right: 0,
+                height: "30%",
+                background:
+                  "linear-gradient(180deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 100%)",
+              }}
+            ></div>
+            <div
+              style={{
+                position: "absolute",
+                bottom: 0,
+                left: 0,
+                right: 0,
+                height: "20%",
+                background:
+                  "linear-gradient(0deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0) 100%)",
+              }}
+            ></div>
+
+            <p
+              className="text-white text-center lg:text-xl relative"
+              style={{
+                lineHeight: "1.7",
+                position: "relative",
+                zIndex: 10,
+                textShadow: "0 1px 2px rgba(0, 0, 0, 0.1)",
+              }}
+            >
+              Somos una empresa especializada en tecnología, y dentro de nuestra
+              línea de productos, los IPhones ocupan un lugar destacado.
+              Ofrecemos equipos 100% originales, con{" "}
+              <span className="font-bold">
+                12 meses de garantía oficial directamente con Apple y entrega
+                inmediata con retiro por nuestra oficina comercial ubicada en
+                CABA.
+              </span>
             </p>
           </div>
         </div>
@@ -65,17 +151,27 @@ const AboutSection = () => {
               data-aos="fade-left"
               data-aos-delay="100"
             >
-              Nuestra Trayectoria
+              📱 Confianza y Experiencia
             </h3>
             <p className="mb-4">
-              Con más de 5 años en el mercado, <span className="text-[#87CDEF] font-bold">M-STORE</span> se ha convertido en el referente de confianza para los amantes de la tecnología y la innovación.  
+              Hace más de 5 años que trabajamos con tecnología Apple, ofreciendo
+              una experiencia de compra clara, segura y cercana. Sabemos lo que
+              buscás: productos confiables, atención real, y precios en USD que
+              realmente valen la pena.
             </p>
+            <h4
+              className="text-xl font-semibold text-[#87CDEF] mb-4"
+              data-aos="fade-left"
+              data-aos-delay="200"
+            >
+              Lo que nos distingue:
+            </h4>
             <ul className="space-y-3">
               {[
-                "Productos originales y certificados",
-                "Asesoría experta en cada compra",
-                "Innovación constante",
-                "Compromiso total con el cliente",
+                "Productos 100% nuevos y originales",
+                "Asesoramiento personalizado",
+                "Retiro inmediato en nuestra oficina comercial en CABA",
+                "El mejor precio en USD del mercado",
               ].map((item, index) => (
                 <li
                   key={index}
@@ -106,7 +202,6 @@ const AboutSection = () => {
                 className="w-full object-cover"
                 style={{ height: "300px" }}
               />
-             
             </div>
           </div>
 
@@ -121,17 +216,26 @@ const AboutSection = () => {
               data-aos="fade-right"
               data-aos-delay="100"
             >
-              Servicio y Compromiso
+              Atención personalizada de verdad
             </h3>
             <p className="mb-4">
-              En <span className="text-[#87CDEF] font-bold">M-STORE</span> cada experiencia de compra es única. Nuestro equipo se dedica a ofrecer asesoría personalizada y un soporte postventa excepcional, para que disfrutes de la tecnología iPhone sin preocupaciones.
+              En <span className="text-[#87CDEF] font-bold">M-STORE</span> te
+              asesoramos de forma directa, sin scripts ni respuestas
+              automáticas. Estamos para ayudarte a elegir el iPhone que mejor se
+              adapta a vos, y acompañarte durante todo el proceso de compra.
             </p>
+            <h4
+              className="text-xl font-semibold text-[#87CDEF] mb-4"
+              data-aos="fade-right"
+              data-aos-delay="200"
+            >
+              Lo que te ofrecemos:
+            </h4>
             <ul className="space-y-3">
               {[
-                "Atención VIP y asesoría premium",
-                "Garantía oficial y autenticidad asegurada",
-                "Envíos rápidos y seguros",
-                "Soporte técnico 24/7",
+                "Atención humana y personalizada en nuestra oficina",
+                "Productos originales con garantía oficial de Apple",
+                "Coordinación rápida para retiro o visitas",
               ].map((item, index) => (
                 <li
                   key={index}
