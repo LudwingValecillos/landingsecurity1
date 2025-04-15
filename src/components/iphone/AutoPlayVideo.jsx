@@ -13,7 +13,7 @@ const AutoPlayVideo = () => {
   }, []);
 
   return (
-    <div className="relative overflow-hidden w-screen h-screen " >
+    <div className="relative overflow-hidden  " >
       <video
         ref={videoRef}
         className="w-full h-full object-cover"

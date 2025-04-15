@@ -13,7 +13,11 @@ function App() {
           <Route path="/iphones" element={<IphonesLandingPage />} />
 
           <Route path="/security" element={<SecurityLandingPage />} />
-          <Route path="/" element={<HomePage />} />
+          {/* <Route path="/" element={<HomePage />} />
+           */}
+          <Route path="/" element={<IphonesLandingPage />} />
+          <Route path="*" element={<IphonesLandingPage />} />
+
         </Routes>
       </div>
     </Router>

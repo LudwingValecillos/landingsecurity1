@@ -14,7 +14,6 @@ const ContactSection = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState({ type: "", message: "" });
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -482,7 +481,9 @@ const ContactSection = () => {
               {/* Botón de Tienda */}
               <div className="pt-6" data-aos="fade-up" data-aos-delay="400">
                 <a
-                  href="tel:5491123900395"
+                  href={`https://wa.me/+5491123900395?text=${encodeURIComponent(
+                    "Hola, estoy interesado en un Iphone, me darias mas información?"
+                  )}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center justify-center w-full px-6 py-3 text-base font-medium text-white bg-[#1eaf54] rounded-lg shadow-md hover:bg-[#2980B9]/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2980B9] transform transition-all duration-300 hover:scale-105"
