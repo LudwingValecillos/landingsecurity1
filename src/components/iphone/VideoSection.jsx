@@ -5,13 +5,34 @@ const VideoSection = () => {
   const videoRef = useRef(null);
 
   useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.play().catch((error) => {
-        console.log("Reproducción automática no permitida:", error);
-      });
-    }
-  }, []);
+    if (!videoRef.current) return;
+    // Configuramos el Intersection Observer para detectar cuando el video entra en el viewport
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          // Si el video es visible en el viewport (umbral definido), se reproduce
+          if (entry.isIntersecting) {
+            videoRef.current.play().catch((error) => {
+              console.log("Error al reproducir el video:", error);
+            });
+          } else {
+            // Opcional: para detener el video cuando ya no es visible
+            videoRef.current.pause();
+          }
+        });
+      },
+      { threshold: 0.5 } // El callback se dispara cuando el 50% del video es visible
+    );
 
+    observer.observe(videoRef.current);
+
+    // Desconecta el observer en el cleanup
+    return () => {
+      if (videoRef.current) {
+        observer.unobserve(videoRef.current);
+      }
+    };
+  }, []);
 
   return (
     <section className="py-16 bg-gradient-to-b from-white to-gray-100">
@@ -28,7 +49,6 @@ const VideoSection = () => {
               <video
                 ref={videoRef}
                 className="w-full h-full object-cover"
-                autoPlay
                 loop
                 muted
                 playsInline
@@ -44,7 +64,7 @@ const VideoSection = () => {
           <div className="w-full lg:w-2/5 mt-8 lg:mt-0">
             <div className="bg-white rounded-xl shadow-lg p-8 border border-blue-100">
               <h3 className="text-2xl font-bold text-gray-800 mb-4">
-                Visitanos en nuestra oficina
+                Visítanos en nuestra oficina
               </h3>
 
               <p className="text-gray-600 mb-6">
@@ -84,7 +104,7 @@ const VideoSection = () => {
                     </h4>
                     <p className="text-gray-600 text-sm">
                       En pleno centro de CABA, con fácil acceso por transporte
-                      público
+                      público.
                     </p>
                   </div>
                 </div>
@@ -112,7 +132,7 @@ const VideoSection = () => {
                     </h4>
                     <p className="text-gray-600 text-sm">
                       Lunes a viernes de 10:00 a 19:00 hs y sábados de 10:00 a
-                      14:00 hs
+                      14:00 hs.
                     </p>
                   </div>
                 </div>
@@ -139,7 +159,7 @@ const VideoSection = () => {
                       Atención Personalizada
                     </h4>
                     <p className="text-gray-600 text-sm">
-                      Nuestros asesores te guiarán y despejarán todas tus dudas
+                      Nuestros asesores te guiarán y despejarán todas tus dudas.
                     </p>
                   </div>
                 </div>
