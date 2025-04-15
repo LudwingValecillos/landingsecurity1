@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import mobile1 from '../../assets/images/iphone16.png';
@@ -9,6 +9,58 @@ import mobile5 from '../../assets/images/iphone16azulultramarino.png';
 import mobile6 from '../../assets/images/iphone16titanionegro.png';
 
 const CatalogSection = () => {
+  const mobileCarouselRef = useRef(null);
+  const desktopCarouselRef = useRef(null);
+
+  // Función para prevenir que el carrusel capture los eventos de scroll vertical
+  useEffect(() => {
+    const handleWheel = (e) => {
+      // Solo permitimos que el carrusel capture eventos horizontales
+      if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+        // Es un scroll horizontal, dejamos que el carrusel lo maneje
+        return;
+      }
+      
+      // Es un scroll vertical, prevenimos que el carrusel lo capture
+      e.stopPropagation();
+    };
+
+    // Aplicar a los contenedores de carrusel
+    const mobileCarousel = mobileCarouselRef.current;
+    const desktopCarousel = desktopCarouselRef.current;
+
+    if (mobileCarousel) {
+      const carouselElement = mobileCarousel.querySelector('.carousel');
+      if (carouselElement) {
+        carouselElement.addEventListener('wheel', handleWheel, { passive: false });
+      }
+    }
+
+    if (desktopCarousel) {
+      const carouselElement = desktopCarousel.querySelector('.carousel');
+      if (carouselElement) {
+        carouselElement.addEventListener('wheel', handleWheel, { passive: false });
+      }
+    }
+
+    // Limpieza al desmontar
+    return () => {
+      if (mobileCarousel) {
+        const carouselElement = mobileCarousel.querySelector('.carousel');
+        if (carouselElement) {
+          carouselElement.removeEventListener('wheel', handleWheel);
+        }
+      }
+
+      if (desktopCarousel) {
+        const carouselElement = desktopCarousel.querySelector('.carousel');
+        if (carouselElement) {
+          carouselElement.removeEventListener('wheel', handleWheel);
+        }
+      }
+    };
+  }, []);
+
   const iphonesCatalog = [
     {
       id: 1,
@@ -71,7 +123,7 @@ const CatalogSection = () => {
         </div>
 
         {/* Vista móvil - Carrusel */}
-        <div className="block md:hidden">
+        <div className="block md:hidden" ref={mobileCarouselRef}>
           <Carousel
             showArrows={true}
             showStatus={false}
@@ -87,6 +139,7 @@ const CatalogSection = () => {
             centerSlidePercentage={90}
             selectedItem={0}
             showIndicators={true}
+            useKeyboardArrows={false} // Desactiva navegación con teclado para evitar conflictos
           >
             {iphonesCatalog.map((iphone) => (
               <div key={iphone.id} className="pb-10">
@@ -113,7 +166,7 @@ const CatalogSection = () => {
         </div>
 
         {/* Vista desktop - Carrusel */}
-        <div className="hidden md:block">
+        <div className="hidden md:block" ref={desktopCarouselRef}>
           <Carousel
             showArrows={true}
             showStatus={false}
@@ -129,6 +182,7 @@ const CatalogSection = () => {
             centerSlidePercentage={33.33}
             selectedItem={0}
             showIndicators={true}
+            useKeyboardArrows={false} // Desactiva navegación con teclado para evitar conflictos
           >
             {iphonesCatalog.map((iphone) => (
               <div key={iphone.id} className="pb-10 px-2">
@@ -258,6 +312,12 @@ const CatalogSection = () => {
           .custom-carousel-desktop .carousel {
             centerSlidePercentage: 25;
           }
+        }
+        
+        /* Asegurarse de que el carrusel no capture el scroll vertical de la página */
+        .custom-carousel .carousel,
+        .custom-carousel-desktop .carousel {
+          touch-action: pan-x; /* Permite scroll horizontal pero no vertical */
         }
       `}</style>
     </section>
