@@ -9,7 +9,7 @@ import AutoPlayVideo from "../components/iphone/AutoPlayVideo";
 import WhatsAppButton from "../components/WhatsAppButton";
 import imgprefooter from "../assets/images/fotterimnag.png";
 import ContactSection from "../components/iphone/ContactSection";
-
+import VideoSection from "../components/iphone/VideoSection";
 function AppLandingPage() {
   useEffect(() => {
     AOS.init({ duration: 1000 });
@@ -229,6 +229,7 @@ function AppLandingPage() {
         </div>
       </section>
 
+      <VideoSection />
       <ContactSection />
       <WhatsAppButton text={true} />
     </div>
