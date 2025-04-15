@@ -12,19 +12,18 @@ const CatalogSection = () => {
   const mobileCarouselRef = useRef(null);
   const desktopCarouselRef = useRef(null);
 
-  // Función para prevenir que el carrusel capture los eventos de scroll vertical (para desktop)
+  // Lógica para desktop: Permitir sólo que se capture scroll horizontal (wheel)
   useEffect(() => {
     const handleWheel = (e) => {
-      // Solo permitimos que el carrusel capture eventos horizontales
       if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
-        // Es un scroll horizontal, dejamos que el carrusel lo maneje
+        // Es scroll horizontal, dejamos que el carrusel lo maneje
         return;
       }
-      // Es un scroll vertical, prevenimos que el carrusel lo capture
+      // Si es vertical, detenemos la propagación
       e.stopPropagation();
     };
 
-    // Aplicar a los contenedores de carrusel
+    // Aplicar en ambos carruseles
     const mobileCarousel = mobileCarouselRef.current;
     const desktopCarousel = desktopCarouselRef.current;
 
@@ -42,7 +41,6 @@ const CatalogSection = () => {
       }
     }
 
-    // Limpieza al desmontar
     return () => {
       if (mobileCarousel) {
         const carouselElement = mobileCarousel.querySelector('.carousel');
@@ -56,6 +54,40 @@ const CatalogSection = () => {
           carouselElement.removeEventListener('wheel', handleWheel);
         }
       }
+    };
+  }, []);
+
+  // Lógica adicional para móviles: detectar gestos verticales en el área del carrusel
+  useEffect(() => {
+    const carouselContainer = mobileCarouselRef.current;
+    if (!carouselContainer) return;
+
+    let startX = null;
+    let startY = null;
+
+    const handleTouchStart = (e) => {
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+    };
+
+    const handleTouchMove = (e) => {
+      if (startX === null || startY === null) return;
+      const diffX = Math.abs(e.touches[0].clientX - startX);
+      const diffY = Math.abs(e.touches[0].clientY - startY);
+      // Si el movimiento vertical es mayor que el horizontal, liberamos el scroll.
+      if (diffY > diffX) {
+        // Paramos la ejecución de la lógica del carrusel para permitir el scroll vertical.
+        // Con "stopPropagation" evitamos que el evento se consuma internamente en el carrusel.
+        e.stopPropagation();
+      }
+    };
+
+    carouselContainer.addEventListener('touchstart', handleTouchStart, { passive: true });
+    carouselContainer.addEventListener('touchmove', handleTouchMove, { passive: false });
+
+    return () => {
+      carouselContainer.removeEventListener('touchstart', handleTouchStart);
+      carouselContainer.removeEventListener('touchmove', handleTouchMove);
     };
   }, []);
 
@@ -137,7 +169,7 @@ const CatalogSection = () => {
             centerSlidePercentage={90}
             selectedItem={0}
             showIndicators={true}
-            useKeyboardArrows={false} // Desactiva navegación con teclado para evitar conflictos
+            useKeyboardArrows={false}
           >
             {iphonesCatalog.map((iphone) => (
               <div key={iphone.id} className="pb-10">
@@ -150,9 +182,15 @@ const CatalogSection = () => {
                     />
                   </div>
                   <div className="px-2">
-                    <h3 className="text-lg font-semibold mb-2 line-clamp-2 min-h-[3.5rem]">{iphone.name}</h3>
-                    <p className="text-gray-600 text-sm mb-3 line-clamp-2 min-h-[2.5rem]">{iphone.description}</p>
-                    <p className="font-bold text-xl text-purple-600 mb-4">{iphone.price}</p>
+                    <h3 className="text-lg font-semibold mb-2 line-clamp-2 min-h-[3.5rem]">
+                      {iphone.name}
+                    </h3>
+                    <p className="text-gray-600 text-sm mb-3 line-clamp-2 min-h-[2.5rem]">
+                      {iphone.description}
+                    </p>
+                    <p className="font-bold text-xl text-purple-600 mb-4">
+                      {iphone.price}
+                    </p>
                     <button className="bg-purple-600 text-white px-6 py-2.5 rounded-full hover:bg-purple-700 transition-all duration-300 w-full font-medium shadow-md hover:shadow-lg active:scale-95">
                       Comprar Ahora
                     </button>
@@ -180,7 +218,7 @@ const CatalogSection = () => {
             centerSlidePercentage={33.33}
             selectedItem={0}
             showIndicators={true}
-            useKeyboardArrows={false} // Desactiva navegación con teclado para evitar conflictos
+            useKeyboardArrows={false}
           >
             {iphonesCatalog.map((iphone) => (
               <div key={iphone.id} className="pb-10 px-2">
@@ -193,9 +231,15 @@ const CatalogSection = () => {
                     />
                   </div>
                   <div className="px-2">
-                    <h3 className="text-lg font-semibold mb-2 line-clamp-2 min-h-[3.5rem]">{iphone.name}</h3>
-                    <p className="text-gray-600 text-sm mb-3 line-clamp-2 min-h-[2.5rem]">{iphone.description}</p>
-                    <p className="font-bold text-xl text-purple-600 mb-4">{iphone.price}</p>
+                    <h3 className="text-lg font-semibold mb-2 line-clamp-2 min-h-[3.5rem]">
+                      {iphone.name}
+                    </h3>
+                    <p className="text-gray-600 text-sm mb-3 line-clamp-2 min-h-[2.5rem]">
+                      {iphone.description}
+                    </p>
+                    <p className="font-bold text-xl text-purple-600 mb-4">
+                      {iphone.price}
+                    </p>
                     <button
                       onClick={() =>
                         window.open(
@@ -218,10 +262,11 @@ const CatalogSection = () => {
       <style jsx>{`
         .custom-carousel .carousel,
         .custom-carousel-desktop .carousel {
-          /* Para desktop mantenemos el scroll horizontal */
+          /* Para desktop, mantenemos la acción horizontal */
           touch-action: pan-x;
         }
-        /* En dispositivos móviles (pantallas pequeñas) permitimos scroll vertical */
+        /* En móviles se utiliza "auto" para permitir ambos gestos.
+           La lógica en touchmove se encarga de liberar el scroll vertical. */
         @media (max-width: 767px) {
           .custom-carousel .carousel {
             touch-action: auto;
