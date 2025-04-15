@@ -12,7 +12,7 @@ const CatalogSection = () => {
   const mobileCarouselRef = useRef(null);
   const desktopCarouselRef = useRef(null);
 
-  // Función para prevenir que el carrusel capture los eventos de scroll vertical
+  // Función para prevenir que el carrusel capture los eventos de scroll vertical (para desktop)
   useEffect(() => {
     const handleWheel = (e) => {
       // Solo permitimos que el carrusel capture eventos horizontales
@@ -20,7 +20,6 @@ const CatalogSection = () => {
         // Es un scroll horizontal, dejamos que el carrusel lo maneje
         return;
       }
-      
       // Es un scroll vertical, prevenimos que el carrusel lo capture
       e.stopPropagation();
     };
@@ -51,7 +50,6 @@ const CatalogSection = () => {
           carouselElement.removeEventListener('wheel', handleWheel);
         }
       }
-
       if (desktopCarousel) {
         const carouselElement = desktopCarousel.querySelector('.carousel');
         if (carouselElement) {
@@ -198,7 +196,15 @@ const CatalogSection = () => {
                     <h3 className="text-lg font-semibold mb-2 line-clamp-2 min-h-[3.5rem]">{iphone.name}</h3>
                     <p className="text-gray-600 text-sm mb-3 line-clamp-2 min-h-[2.5rem]">{iphone.description}</p>
                     <p className="font-bold text-xl text-purple-600 mb-4">{iphone.price}</p>
-                    <button onClick={() => window.open(`https://wa.me/5491123900395?text=Hola,%20estoy%20interesado%20en%20el%20${encodeURIComponent(iphone.name)}`, '_blank')} className="bg-purple-600 text-white px-6 py-2.5 rounded-full hover:bg-purple-700 transition-all duration-300 w-full font-medium shadow-md hover:shadow-lg active:scale-95">
+                    <button
+                      onClick={() =>
+                        window.open(
+                          `https://wa.me/5491123900395?text=Hola,%20estoy%20interesado%20en%20el%20${encodeURIComponent(iphone.name)}`,
+                          '_blank'
+                        )
+                      }
+                      className="bg-purple-600 text-white px-6 py-2.5 rounded-full hover:bg-purple-700 transition-all duration-300 w-full font-medium shadow-md hover:shadow-lg active:scale-95"
+                    >
                       Comprar Ahora
                     </button>
                   </div>
@@ -210,6 +216,18 @@ const CatalogSection = () => {
       </div>
 
       <style jsx>{`
+        .custom-carousel .carousel,
+        .custom-carousel-desktop .carousel {
+          /* Para desktop mantenemos el scroll horizontal */
+          touch-action: pan-x;
+        }
+        /* En dispositivos móviles (pantallas pequeñas) permitimos scroll vertical */
+        @media (max-width: 767px) {
+          .custom-carousel .carousel {
+            touch-action: auto;
+          }
+        }
+
         .custom-carousel .carousel .control-arrow,
         .custom-carousel-desktop .carousel .control-arrow {
           background: rgba(255, 255, 255, 0.9);
@@ -223,14 +241,14 @@ const CatalogSection = () => {
           display: flex;
           align-items: center;
           justify-content: center;
-          box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
           transition: all 0.3s ease;
         }
         
         .custom-carousel .carousel .control-arrow:hover,
         .custom-carousel-desktop .carousel .control-arrow:hover {
           background: white;
-          box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
 
         .custom-carousel .carousel .control-arrow:before,
@@ -312,12 +330,6 @@ const CatalogSection = () => {
           .custom-carousel-desktop .carousel {
             centerSlidePercentage: 25;
           }
-        }
-        
-        /* Asegurarse de que el carrusel no capture el scroll vertical de la página */
-        .custom-carousel .carousel,
-        .custom-carousel-desktop .carousel {
-          touch-action: pan-x; /* Permite scroll horizontal pero no vertical */
         }
       `}</style>
     </section>
