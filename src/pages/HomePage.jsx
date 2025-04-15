@@ -1,18 +1,22 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import image from '../assets/images/sinfondoaa.png';
+import image2 from '../assets/images/homesecurity.png';
+import ipgoneback from '../assets/images/iphoneback.png';
 
 function HomePage() {
   return (
     <div className="flex flex-col min-h-screen">
-      <img src={image} alt="" className='h-10 w-30 object-cover'/>
+      <div className="flex justify-center">
+        <img src={image} alt="" className='h-10 w-30 object-cover'/>
+      </div>
       
       
       {/* Split hero section - full height with two equal columns */}
       <div className="flex flex-col md:flex-row flex-grow">
         {/* Security Cameras Section - Left Half */}
         <div className="w-full md:w-1/2 relative group cursor-pointer">
-          <div className="absolute inset-0 bg-cover bg-center" style={{backgroundImage: "url('/api/placeholder/600/800')", backgroundPosition: "center"}}>
+          <div className="absolute inset-0 bg-cover bg-center" style={{backgroundImage: `url(${image2})`, backgroundPosition: "center"}}>
             <div className="absolute inset-0 bg-blue-900 bg-opacity-80 group-hover:bg-opacity-70 transition-all duration-300"></div>
           </div>
           
@@ -47,14 +51,14 @@ function HomePage() {
         </div>
         
         {/* iPhones Section - Right Half */}
-        <div className="w-full md:w-1/2 relative group cursor-pointer">
-          <div className="absolute inset-0 bg-cover bg-center" style={{backgroundImage: "url('/api/placeholder/600/800')", backgroundPosition: "center"}}>
+        <div className="w-full md:w-1/2 relative group cursor-pointer ">
+          <div className="absolute inset-0 bg-cover bg-center" style={{backgroundImage: `url(${ipgoneback})`, backgroundPosition: "center"}}>
             <div className="absolute inset-0 bg-gray-900 bg-opacity-80 group-hover:bg-opacity-70 transition-all duration-300"></div>
           </div>
           
           <Link to="/iphones" className="block relative h-full z-10">
             <div className="flex flex-col items-center justify-center h-full text-white p-8 text-center">
-              <div className="mb-6 p-4 rounded-full bg-gray-700 bg-opacity-70">
+              <div className="mb-6 p-4 rounded-full bg-gray-700 bg-opacity-70 ">
                 <svg className="w-12 h-12" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                   <path fillRule="evenodd" d="M7 2a2 2 0 00-2 2v12a2 2 0 002 2h6a2 2 0 002-2V4a2 2 0 00-2-2H7zm3 14a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd"></path>
                 </svg>
