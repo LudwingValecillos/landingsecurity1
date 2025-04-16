@@ -1,6 +1,34 @@
-import React from "react";
+import React, { useRef, useEffect, useState } from 'react';
+import video from '../../assets/images/large1.mp4';
 
 const VideoSection = () => {
+  const videoRef = useRef(null);
+  const [hasPlayed, setHasPlayed] = useState(false);
+
+  useEffect(() => {
+    // Utilizamos IntersectionObserver para reproducir el video cuando se encuentre en el viewport
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !hasPlayed) {
+            if (videoRef.current) {
+              videoRef.current.play().catch((err) => console.error('Error al reproducir el video:', err));
+              setHasPlayed(true);
+            }
+          }
+        });
+      },
+      { threshold: 0.5 }
+    );
+
+    if (videoRef.current) {
+      observer.observe(videoRef.current);
+    }
+    return () => {
+      if (videoRef.current) observer.unobserve(videoRef.current);
+    };
+  }, [hasPlayed]);
+
   return (
     <section className="py-16 bg-gradient-to-b from-white to-gray-100">
       <div className="container mx-auto px-4">
@@ -13,14 +41,22 @@ const VideoSection = () => {
           {/* Video Container */}
           <div className="w-full lg:w-3/5 rounded-xl overflow-hidden shadow-2xl">
             <div className="relative aspect-video">
-              <iframe
-                src="https://drive.google.com/file/d/1VtEp0KBRQh8ozG9frdhSNutTlhfXDQcU/preview"
-                frameBorder="0"
-                allow="autoplay; encrypted-media"
-                allowFullScreen
-                style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }}
-                title="Video de Nuestra Oficina"
-              ></iframe>
+              <video
+                ref={videoRef}
+                className="absolute inset-0 object-cover"
+                src={video}
+                autoPlay
+                loop
+                muted
+                playsInline
+                preload="auto"
+                title="large1"
+                // Opcional: puedes agregar un poster para mejor UX en la carga
+                // poster="/path/to/poster.jpg"
+              >
+                <source src={video} type="video/mp4" />
+                Tu navegador no soporta el elemento de video.
+              </video>
             </div>
           </div>
 
@@ -32,7 +68,10 @@ const VideoSection = () => {
               </h3>
 
               <p className="text-gray-600 mb-6">
-                En <span className="text-blue-500 font-bold">M-STORE</span> nos enorgullecemos de ofrecerte un espacio cómodo y seguro para que conozcas y retires tu nuevo iPhone. Ubicados estratégicamente en CABA, contamos con un showroom donde podrás verificar tu equipo antes de realizar la compra.
+                En <span className="text-blue-500 font-bold">M-STORE</span> nos enorgullecemos de ofrecerte
+                un espacio cómodo y seguro para que conozcas y retires tu nuevo iPhone. Ubicados
+                estratégicamente en CABA, contamos con un showroom donde podrás verificar tu equipo
+                antes de realizar la compra.
               </p>
 
               <div className="space-y-4">
@@ -59,12 +98,9 @@ const VideoSection = () => {
                     </svg>
                   </div>
                   <div>
-                    <h4 className="font-medium text-gray-800">
-                      Ubicación Céntrica
-                    </h4>
+                    <h4 className="font-medium text-gray-800">Ubicación Céntrica</h4>
                     <p className="text-gray-600 text-sm">
-                      En pleno centro de CABA, con fácil acceso por transporte
-                      público.
+                      En pleno centro de CABA, con fácil acceso por transporte público.
                     </p>
                   </div>
                 </div>
@@ -87,9 +123,7 @@ const VideoSection = () => {
                     </svg>
                   </div>
                   <div>
-                    <h4 className="font-medium text-gray-800">
-                      Horario Extendido
-                    </h4>
+                    <h4 className="font-medium text-gray-800">Horario Extendido</h4>
                     <p className="text-gray-600 text-sm">
                       Lunes a viernes de 10:00 a 19:00 hs y sábados de 10:00 a 14:00 hs.
                     </p>
@@ -114,9 +148,7 @@ const VideoSection = () => {
                     </svg>
                   </div>
                   <div>
-                    <h4 className="font-medium text-gray-800">
-                      Atención Personalizada
-                    </h4>
+                    <h4 className="font-medium text-gray-800">Atención Personalizada</h4>
                     <p className="text-gray-600 text-sm">
                       Nuestros asesores te guiarán y despejarán todas tus dudas.
                     </p>
@@ -128,8 +160,8 @@ const VideoSection = () => {
                 <button
                   onClick={() =>
                     window.open(
-                      `https://wa.me/5491123900395?text=Hola,%20estoy%20interesado%20en%20el%20comprar%20un%20iPhone%20y%20me%20gustaría%20saber%20más%20detalles%20sobre%20los%20productos%20disponibles%20y%20las%20ofertas%20actuales.`,
-                      "_blank"
+                      'https://wa.me/5491123900395?text=Hola,%20estoy%20interesado%20en%20el%20comprar%20un%20iPhone%20y%20me%20gustaría%20saber%20más%20detalles%20sobre%20los%20productos%20disponibles%20y%20las%20ofertas%20actuales.',
+                      '_blank'
                     )
                   }
                   className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-medium py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out flex items-center gap-2"
