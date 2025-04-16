@@ -3,7 +3,8 @@ import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import "./styles/App.css";
 import SecurityLandingPage from "./pages/SecurityLandinPage";
 import IphonesLandingPage from "./pages/IphonesLandinPage";
-import HomePage from "./pages/HomePage";
+import LoginPage from "./pages/LoginPage";
+
 
 function App() {
   return (
@@ -17,6 +18,8 @@ function App() {
            */}
           <Route path="/" element={<IphonesLandingPage />} />
           <Route path="*" element={<IphonesLandingPage />} />
+          <Route path="/login" element={<LoginPage />} />
+
 
         </Routes>
       </div>
