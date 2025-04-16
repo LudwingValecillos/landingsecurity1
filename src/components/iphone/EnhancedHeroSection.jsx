@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, memo } from "react";
 import {
   ChevronRight,
   Star,
@@ -8,10 +8,56 @@ import {
   MessageCircle,
   BadgeDollarSign
 } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import logo from "../../assets/images/sinfondoaa.png";
+
+// Componentes memorizados para los badges
+const TrustBadge = memo(({ icon: Icon, text, color }) => (
+  <motion.div 
+    className={`bg-white text-${color}-800 px-4 py-2 rounded-lg flex items-center text-sm font-medium shadow-md border border-${color}-100`}
+    variants={{
+      hidden: { opacity: 0, y: 20 },
+      visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+    }}
+    whileHover={{ scale: 1.05, boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)" }}
+  >
+    <Icon size={18} className={`mr-2 text-${color}-600`} /> {text}
+  </motion.div>
+));
+
+// Componente memorizado para los botones de navegación
+const NavButton = memo(({ direction, onClick, color }) => {
+  const Icon = direction === "prev" ? ChevronLeft : ChevronRight;
+  const position = direction === "prev" ? "left-2" : "right-2";
+  const hoverEffect = direction === "prev" ? { scale: 1.1, x: -2 } : { scale: 1.1, x: 2 };
+  const initialX = direction === "prev" ? -20 : 20;
+  
+  return (
+    <motion.button
+      onClick={onClick}
+      className={`absolute ${position} top-1/2 transform -translate-y-1/2 bg-white hover:bg-${color}-50 p-3 rounded-full shadow-lg z-30 transition-all border border-${color}-100`}
+      aria-label={`${direction === "prev" ? "Previous" : "Next"} slide`}
+      whileHover={hoverEffect}
+      whileTap={{ scale: 0.9 }}
+      initial={{ x: initialX, opacity: 0 }}
+      animate={{ x: 0, opacity: 1 }}
+      transition={{ delay: 0.7 }}
+    >
+      <Icon size={20} className={`text-${color}-600`} />
+    </motion.button>
+  );
+});
+
+// Background shape component
+const BackgroundShape = memo(({ className, animationProps }) => (
+  <motion.div 
+    className={className}
+    animate={animationProps.animate}
+    transition={animationProps.transition}
+  />
+));
 
 const EnhancedHeroSection = ({ products = [] }) => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -20,17 +66,25 @@ const EnhancedHeroSection = ({ products = [] }) => {
   const [isMobile, setIsMobile] = useState(false);
   const [iPhoneModels, setiPhoneModels] = useState([]);
 
+  // Inicialización de AOS una sola vez
   useEffect(() => {
-    // Initialize AOS
     AOS.init({
       duration: 1000,
       once: false,
       mirror: true,
     });
+    
+    return () => {
+      // Clean up if needed
+    };
+  }, []);
 
+  // Efecto separado para actualizar productos
+  useEffect(() => {
     if (products && products.length > 0) {
       const offeredProducts = products.filter(product => product.offer === true);
       setiPhoneModels(offeredProducts);
+      
       // Reset activeIndex if it's out of bounds
       if (activeIndex >= offeredProducts.length) {
         setActiveIndex(0);
@@ -38,9 +92,10 @@ const EnhancedHeroSection = ({ products = [] }) => {
     }
   }, [products, activeIndex]);
 
+  // Efecto para la animación inicial
   useEffect(() => {
     setIsVisible(true);
-    setTimeout(() => {
+    const phoneAnimationTimer = setTimeout(() => {
       setAnimatePhones(true);
     }, 500);
 
@@ -51,9 +106,13 @@ const EnhancedHeroSection = ({ products = [] }) => {
     checkIfMobile();
     window.addEventListener('resize', checkIfMobile);
 
-    return () => window.removeEventListener('resize', checkIfMobile);
+    return () => {
+      clearTimeout(phoneAnimationTimer);
+      window.removeEventListener('resize', checkIfMobile);
+    };
   }, []);
 
+  // Efecto para el manejo de swipe
   useEffect(() => {
     let touchStartX = 0;
     let touchEndX = 0;
@@ -79,8 +138,8 @@ const EnhancedHeroSection = ({ products = [] }) => {
 
     const carousel = document.getElementById("iphone-carousel");
     if (carousel) {
-      carousel.addEventListener("touchstart", handleTouchStart);
-      carousel.addEventListener("touchend", handleTouchEnd);
+      carousel.addEventListener("touchstart", handleTouchStart, { passive: true });
+      carousel.addEventListener("touchend", handleTouchEnd, { passive: true });
 
       return () => {
         carousel.removeEventListener("touchstart", handleTouchStart);
@@ -89,31 +148,32 @@ const EnhancedHeroSection = ({ products = [] }) => {
     }
   }, [activeIndex, iPhoneModels]);
 
+  // Refrescar AOS cuando cambia el contenido
   useEffect(() => {
-    // Refresh AOS when content changes
     AOS.refresh();
   }, [activeIndex]);
 
-  const goToSlide = (index) => {
+  // Memoized handlers para evitar recreaciones innecesarias
+  const goToSlide = useCallback((index) => {
     if (!iPhoneModels.length) return;
     setActiveIndex(index);
     setAnimatePhones(false);
     setTimeout(() => {
       setAnimatePhones(true);
     }, 300);
-  };
+  }, [iPhoneModels]);
 
-  const nextSlide = () => {
+  const nextSlide = useCallback(() => {
     if (!iPhoneModels.length) return;
     goToSlide((activeIndex + 1) % iPhoneModels.length);
-  };
+  }, [activeIndex, iPhoneModels, goToSlide]);
 
-  const prevSlide = () => {
+  const prevSlide = useCallback(() => {
     if (!iPhoneModels.length) return;
     goToSlide((activeIndex - 1 + iPhoneModels.length) % iPhoneModels.length);
-  };
+  }, [activeIndex, iPhoneModels, goToSlide]);
 
-  // Animation variants for Framer Motion
+  // Animation variants - definidos fuera de renderContent para evitar recreaciones
   const fadeInUp = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
@@ -139,6 +199,71 @@ const EnhancedHeroSection = ({ products = [] }) => {
     }
   };
 
+  // Definir los objetos de fondo una vez para evitar recrearlos en cada render
+  const backgroundShapes = [
+    {
+      className: "absolute -top-24 left-10 w-64 h-64 bg-blue-200 rounded-full opacity-30 blur-2xl",
+      animationProps: {
+        animate: { 
+          scale: [1, 1.2, 1],
+          opacity: [0.3, 0.4, 0.3]
+        },
+        transition: { 
+          duration: 8,
+          repeat: Infinity,
+          repeatType: "reverse" 
+        }
+      }
+    },
+    {
+      className: "absolute -bottom-24 right-10 w-48 h-48 bg-purple-200 rounded-full opacity-30 blur-2xl",
+      animationProps: {
+        animate: { 
+          scale: [1, 1.3, 1],
+          opacity: [0.3, 0.5, 0.3]
+        },
+        transition: { 
+          duration: 10,
+          repeat: Infinity,
+          repeatType: "reverse" 
+        }
+      }
+    },
+    {
+      className: "absolute top-40 right-20 w-32 h-32 bg-pink-200 rounded-full opacity-20 blur-xl",
+      animationProps: {
+        animate: { 
+          scale: [1, 1.2, 1], 
+          opacity: [0.2, 0.3, 0.2]
+        },
+        transition: { 
+          duration: 6,
+          repeat: Infinity,
+          repeatType: "reverse" 
+        }
+      }
+    }
+  ];
+
+  // Los badges de confianza para evitar recrearlos en cada render
+  const trustBadges = [
+    {
+      icon: ShieldCheck,
+      text: "iPhones sellados y originales",
+      color: "blue"
+    },
+    {
+      icon: Star,
+      text: "Garantía oficial de Apple por un año",
+      color: "purple"
+    },
+    {
+      icon: BadgeDollarSign,
+      text: "Precios competitivos en USD",
+      color: "pink"
+    }
+  ];
+
   const renderContent = () => {
     if (!iPhoneModels || iPhoneModels.length === 0) {
       return (
@@ -161,42 +286,13 @@ const EnhancedHeroSection = ({ products = [] }) => {
     return (
       <section className="bg-gradient-to-b from-blue-100 to-purple-100 py-12 md:py-16 overflow-hidden relative">
         {/* Animated background shapes */}
-        <motion.div 
-          className="absolute -top-24 left-10 w-64 h-64 bg-blue-200 rounded-full opacity-30 blur-2xl"
-          animate={{ 
-            scale: [1, 1.2, 1],
-            opacity: [0.3, 0.4, 0.3]
-          }}
-          transition={{ 
-            duration: 8,
-            repeat: Infinity,
-            repeatType: "reverse" 
-          }}
-        />
-        <motion.div 
-          className="absolute -bottom-24 right-10 w-48 h-48 bg-purple-200 rounded-full opacity-30 blur-2xl"
-          animate={{ 
-            scale: [1, 1.3, 1],
-            opacity: [0.3, 0.5, 0.3]
-          }}
-          transition={{ 
-            duration: 10,
-            repeat: Infinity,
-            repeatType: "reverse" 
-          }}
-        />
-        <motion.div 
-          className="absolute top-40 right-20 w-32 h-32 bg-pink-200 rounded-full opacity-20 blur-xl"
-          animate={{ 
-            scale: [1, 1.2, 1], 
-            opacity: [0.2, 0.3, 0.2]
-          }}
-          transition={{ 
-            duration: 6,
-            repeat: Infinity,
-            repeatType: "reverse" 
-          }}
-        />
+        {backgroundShapes.map((shape, index) => (
+          <BackgroundShape 
+            key={index}
+            className={shape.className}
+            animationProps={shape.animationProps}
+          />
+        ))}
 
         <div className="container mx-auto px-4">
           {/* Mobile-optimized layout - Logo and title first */}
@@ -299,30 +395,14 @@ const EnhancedHeroSection = ({ products = [] }) => {
                 data-aos="fade-up"
                 data-aos-delay="400"
               >
-                <motion.div 
-                  className="bg-white text-blue-800 px-4 py-2 rounded-lg flex items-center text-sm font-medium shadow-md border border-blue-100"
-                  variants={fadeInUp}
-                  whileHover={{ scale: 1.05, boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)" }}
-                >
-                  <ShieldCheck size={18} className="mr-2 text-blue-600" /> iPhones
-                  sellados y originales
-                </motion.div>
-                <motion.div 
-                  className="bg-white text-purple-800 px-4 py-2 rounded-lg flex items-center text-sm font-medium shadow-md border border-purple-100"
-                  variants={fadeInUp}
-                  whileHover={{ scale: 1.05, boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)" }}
-                >
-                  <Star size={18} className="mr-2 text-purple-600" /> 
-                  Garantía oficial de Apple por un año
-                </motion.div>
-                <motion.div 
-                  className="bg-white text-pink-800 px-4 py-2 rounded-lg flex items-center text-sm font-medium shadow-md border border-pink-100"
-                  variants={fadeInUp}
-                  whileHover={{ scale: 1.05, boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)" }}
-                >
-                  <BadgeDollarSign size={18} className="mr-2 text-pink-600" /> Precios
-                  competitivos en USD
-                </motion.div>
+                {trustBadges.map((badge, index) => (
+                  <TrustBadge 
+                    key={index}
+                    icon={badge.icon}
+                    text={badge.text}
+                    color={badge.color}
+                  />
+                ))}
               </motion.div>
 
               {/* Call-to-action buttons with improved contrast */}
@@ -400,7 +480,7 @@ const EnhancedHeroSection = ({ products = [] }) => {
                 id="iphone-carousel"
                 className="relative h-80 sm:h-96 md:h-[450px] flex justify-center items-center touch-pan-y"
               >
-                {/* Enhanced Price Tag with Discount - CORRECCIÓN: Centrado y mejorado */}
+                {/* Enhanced Price Tag with Discount */}
                 <motion.div 
                   className="absolute top-0 transform -translate-x-1/2 bg-gradient-to-r from-blue-600 to-purple-700 px-6 py-2 rounded-full shadow-lg z-30 flex flex-col items-center"
                   initial={{ y: -20, opacity: 0 }}
@@ -426,135 +506,113 @@ const EnhancedHeroSection = ({ products = [] }) => {
                   </motion.span>
                 </motion.div>
 
-                {/* iPhone Carousel - Enhanced - CORRECCIÓN: Estructura mejorada */}
+                {/* iPhone Carousel - Enhanced */}
                 <div className="relative w-full h-full flex justify-center items-center">
-                  {iPhoneModels.map((model, index) => (
-                    <motion.div
-                      key={index}
-                      className={`absolute w-full h-full flex justify-center items-center transition-all duration-500 ${
-                        index === activeIndex ? "opacity-100 z-20" : "opacity-0 z-10"
-                      }`}
-                      initial={{ opacity: 0 }}
-                      animate={{ 
-                        opacity: index === activeIndex ? 1 : 0,
-                        scale: index === activeIndex ? 1 : 0.9
-                      }}
-                      transition={{ duration: 0.5 }}
-                    >
-                      {/* Main iPhone with enhanced visual effects - CORRECCIÓN: Centrado */}
-                      <motion.div
-                        className="flex flex-col items-center justify-center relative"
-                        initial={{ scale: 0.9, opacity: 0 }}
-                        animate={{ 
-                          scale: animatePhones ? 1 : 0.9, 
-                          opacity: animatePhones ? 1 : 0,
-                          y: [0, -10, 0]
-                        }}
-                        transition={{ 
-                          duration: 0.5,
-                          y: {
-                            duration: 3,
-                            repeat: Infinity,
-                            repeatType: "reverse"
-                          }
-                        }}
-                      >
-                        {/* Reflection effect */}
-                        <motion.div 
-                          className="absolute -z-10 w-32 h-80 bg-gradient-to-t from-blue-300 to-purple-300 opacity-30 blur-lg"
-                          animate={{ 
-                            opacity: [0.3, 0.5, 0.3],
-                            width: ["8rem", "9rem", "8rem"]
-                          }}
-                          transition={{ 
-                            duration: 4,
-                            repeat: Infinity,
-                            repeatType: "reverse" 
-                          }}
-                        />
-
-                        {/* Animated rings - CORRECCIÓN: Centrado */}
-                        <motion.div 
-                          className="absolute -z-10"
-                          animate={{ 
-                            scale: [1, 1.1, 1],
-                            opacity: [0.2, 0.3, 0.2]
-                          }}
-                          transition={{ 
-                            duration: 3,
-                            repeat: Infinity,
-                            repeatType: "reverse" 
-                          }}
+                  <AnimatePresence mode="wait">
+                    {iPhoneModels.map((model, index) => (
+                      index === activeIndex && (
+                        <motion.div
+                          key={index}
+                          className="absolute w-full h-full flex justify-center items-center"
+                          initial={{ opacity: 0, scale: 0.9 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          exit={{ opacity: 0, scale: 0.9 }}
+                          transition={{ duration: 0.5 }}
                         >
-                          <div className="w-48 h-48 md:w-64 md:h-64 rounded-full bg-purple-300 opacity-20"></div>
-                        </motion.div>
-                        <motion.div 
-                          className="absolute -z-10"
-                          animate={{ 
-                            scale: [1, 1.2, 1],
-                            opacity: [0.2, 0.1, 0.2]
-                          }}
-                          transition={{ 
-                            duration: 4,
-                            repeat: Infinity,
-                            repeatType: "reverse" 
-                          }}
-                        >
-                          <div className="w-32 h-32 md:w-48 md:h-48 rounded-full bg-blue-400 opacity-20"></div>
-                        </motion.div>
+                          {/* Main iPhone with enhanced visual effects */}
+                          <motion.div
+                            className="flex flex-col items-center justify-center relative"
+                            initial={{ scale: 0.9, opacity: 0 }}
+                            animate={{ 
+                              scale: animatePhones ? 1 : 0.9, 
+                              opacity: animatePhones ? 1 : 0,
+                              y: [0, -10, 0]
+                            }}
+                            transition={{ 
+                              duration: 0.5,
+                              y: {
+                                duration: 3,
+                                repeat: Infinity,
+                                repeatType: "reverse"
+                              }
+                            }}
+                          >
+                            {/* Reflection effect */}
+                            <motion.div 
+                              className="absolute -z-10 w-32 h-80 bg-gradient-to-t from-blue-300 to-purple-300 opacity-30 blur-lg"
+                              animate={{ 
+                                opacity: [0.3, 0.5, 0.3],
+                                width: ["8rem", "9rem", "8rem"]
+                              }}
+                              transition={{ 
+                                duration: 4,
+                                repeat: Infinity,
+                                repeatType: "reverse" 
+                              }}
+                            />
 
-                        {/* Phone image - CORRECCIÓN: Centrado */}
-                        <motion.img
-                          src={model.image}
-                          alt={model.name}
-                          className="h-64 sm:h-80 md:h-64 w-auto object-contain drop-shadow-2xl z-10"
-                          whileHover={{ rotate: [-1, 1, -1], transition: { duration: 0.5 } }}
-                        />
+                            {/* Animated rings */}
+                            <motion.div 
+                              className="absolute -z-10"
+                              animate={{ 
+                                scale: [1, 1.1, 1],
+                                opacity: [0.2, 0.3, 0.2]
+                              }}
+                              transition={{ 
+                                duration: 3,
+                                repeat: Infinity,
+                                repeatType: "reverse" 
+                              }}
+                            >
+                              <div className="w-48 h-48 md:w-64 md:h-64 rounded-full bg-purple-300 opacity-20"></div>
+                            </motion.div>
+                            <motion.div 
+                              className="absolute -z-10"
+                              animate={{ 
+                                scale: [1, 1.2, 1],
+                                opacity: [0.2, 0.1, 0.2]
+                              }}
+                              transition={{ 
+                                duration: 4,
+                                repeat: Infinity,
+                                repeatType: "reverse" 
+                              }}
+                            >
+                              <div className="w-32 h-32 md:w-48 md:h-48 rounded-full bg-blue-400 opacity-20"></div>
+                            </motion.div>
 
-                        {/* Model name card - CORRECCIÓN: Centrado y reposicionado */}
-                        <motion.div 
-                          className="absolute bottom-0 transform translate-y-1/2 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-xl shadow-md w-64 text-center border-t-2 border-purple-400 z-20"
-                          initial={{ y: 20, opacity: 0 }}
-                          animate={{ y: 0, opacity: 1 }}
-                          transition={{ delay: 0.3, duration: 0.5 }}
-                          whileHover={{ y: -5, boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)" }}
-                        >
-                          <span className="font-medium text-sm truncate block">
-                            {model.name || "iPhone Model"}
-                          </span>
-                          <span className="text-xs text-gray-600">
-                            {model.description || "iPhone description"}
-                          </span>
+                            {/* Phone image */}
+                            <motion.img
+                              src={model.image}
+                              alt={model.name}
+                              className="h-64 sm:h-80 md:h-64 w-auto object-contain drop-shadow-2xl z-10"
+                              whileHover={{ rotate: [-1, 1, -1], transition: { duration: 0.5 } }}
+                            />
+
+                            {/* Model name card */}
+                            <motion.div 
+                              className="absolute bottom-0 transform translate-y-1/2 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-xl shadow-md w-64 text-center border-t-2 border-purple-400 z-20"
+                              initial={{ y: 20, opacity: 0 }}
+                              animate={{ y: 0, opacity: 1 }}
+                              transition={{ delay: 0.3, duration: 0.5 }}
+                              whileHover={{ y: -5, boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)" }}
+                            >
+                              <span className="font-medium text-sm truncate block">
+                                {model.name || "iPhone Model"}
+                              </span>
+                              <span className="text-xs text-gray-600">
+                                {model.description || "iPhone description"}
+                              </span>
+                            </motion.div>
+                          </motion.div>
                         </motion.div>
-                      </motion.div>
-                    </motion.div>
-                  ))}
+                      )
+                    ))}
+                  </AnimatePresence>
 
                   {/* Enhanced Navigation buttons */}
-                  <motion.button
-                    onClick={prevSlide}
-                    className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white hover:bg-blue-50 p-3 rounded-full shadow-lg z-30 transition-all border border-blue-100"
-                    aria-label="Previous slide"
-                    whileHover={{ scale: 1.1, x: -2 }}
-                    whileTap={{ scale: 0.9 }}
-                    initial={{ x: -20, opacity: 0 }}
-                    animate={{ x: 0, opacity: 1 }}
-                    transition={{ delay: 0.7 }}
-                  >
-                    <ChevronLeft size={20} className="text-blue-600" />
-                  </motion.button>
-                  <motion.button
-                    onClick={nextSlide}
-                    className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white hover:bg-purple-50 p-3 rounded-full shadow-lg z-30 transition-all border border-purple-100"
-                    aria-label="Next slide"
-                    whileHover={{ scale: 1.1, x: 2 }}
-                    whileTap={{ scale: 0.9 }}
-                    initial={{ x: 20, opacity: 0 }}
-                    animate={{ x: 0, opacity: 1 }}
-                    transition={{ delay: 0.7 }}
-                  >
-                    <ChevronRight size={20} className="text-purple-600" />
-                  </motion.button>
+                  <NavButton direction="prev" onClick={prevSlide} color="blue" />
+                  <NavButton direction="next" onClick={nextSlide} color="purple" />
                 </div>
 
                 {/* Enhanced indicator dots */}
@@ -603,4 +661,4 @@ const EnhancedHeroSection = ({ products = [] }) => {
   return renderContent();
 };
 
-export default EnhancedHeroSection;
+export default memo(EnhancedHeroSection);

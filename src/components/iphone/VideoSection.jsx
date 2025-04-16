@@ -1,39 +1,6 @@
-import React, { useRef, useEffect } from "react";
-import videoSource from "../../assets/images/large1.mp4";
+import React from "react";
 
 const VideoSection = () => {
-  const videoRef = useRef(null);
-
-  useEffect(() => {
-    if (!videoRef.current) return;
-    // Configuramos el Intersection Observer para detectar cuando el video entra en el viewport
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          // Si el video es visible en el viewport (umbral definido), se reproduce
-          if (entry.isIntersecting) {
-            videoRef.current.play().catch((error) => {
-              console.log("Error al reproducir el video:", error);
-            });
-          } else {
-            // Opcional: para detener el video cuando ya no es visible
-            videoRef.current.pause();
-          }
-        });
-      },
-      { threshold: 0.5 } // El callback se dispara cuando el 50% del video es visible
-    );
-
-    observer.observe(videoRef.current);
-
-    // Desconecta el observer en el cleanup
-    return () => {
-      if (videoRef.current) {
-        observer.unobserve(videoRef.current);
-      }
-    };
-  }, []);
-
   return (
     <section className="py-16 bg-gradient-to-b from-white to-gray-100">
       <div className="container mx-auto px-4">
@@ -46,17 +13,14 @@ const VideoSection = () => {
           {/* Video Container */}
           <div className="w-full lg:w-3/5 rounded-xl overflow-hidden shadow-2xl">
             <div className="relative aspect-video">
-              <video
-                ref={videoRef}
-                className="w-full h-full object-cover"
-                loop
-                muted
-                playsInline
-                controls
-              >
-                <source src={videoSource} type="video/mp4" />
-                Tu navegador no soporta el elemento de video.
-              </video>
+              <iframe
+                src="https://drive.google.com/file/d/1VtEp0KBRQh8ozG9frdhSNutTlhfXDQcU/preview"
+                frameBorder="0"
+                allow="autoplay; encrypted-media"
+                allowFullScreen
+                style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }}
+                title="Video de Nuestra Oficina"
+              ></iframe>
             </div>
           </div>
 
@@ -68,11 +32,7 @@ const VideoSection = () => {
               </h3>
 
               <p className="text-gray-600 mb-6">
-                En <span className="text-blue-500 font-bold">M-STORE</span> nos
-                enorgullecemos de ofrecerte un espacio cómodo y seguro para que
-                conozcas y retires tu nuevo iPhone. Ubicados estratégicamente en
-                CABA, contamos con un showroom donde podrás verificar tu equipo
-                antes de realizar la compra.
+                En <span className="text-blue-500 font-bold">M-STORE</span> nos enorgullecemos de ofrecerte un espacio cómodo y seguro para que conozcas y retires tu nuevo iPhone. Ubicados estratégicamente en CABA, contamos con un showroom donde podrás verificar tu equipo antes de realizar la compra.
               </p>
 
               <div className="space-y-4">
@@ -131,8 +91,7 @@ const VideoSection = () => {
                       Horario Extendido
                     </h4>
                     <p className="text-gray-600 text-sm">
-                      Lunes a viernes de 10:00 a 19:00 hs y sábados de 10:00 a
-                      14:00 hs.
+                      Lunes a viernes de 10:00 a 19:00 hs y sábados de 10:00 a 14:00 hs.
                     </p>
                   </div>
                 </div>
