@@ -4,7 +4,7 @@ import "./styles/App.css";
 import SecurityLandingPage from "./pages/SecurityLandinPage";
 import IphonesLandingPage from "./pages/IphonesLandinPage";
 import LoginPage from "./pages/LoginPage";
-
+import AdminPage from "./pages/AdminPage";
 
 function App() {
   return (
@@ -19,8 +19,7 @@ function App() {
           <Route path="/" element={<IphonesLandingPage />} />
           <Route path="*" element={<IphonesLandingPage />} />
           <Route path="/login" element={<LoginPage />} />
-
-
+          <Route path="/admin" element={<AdminPage />} />
         </Routes>
       </div>
     </Router>

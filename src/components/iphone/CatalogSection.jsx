@@ -8,7 +8,7 @@ import mobile4 from '../../assets/images/iphone16rosa.png';
 import mobile5 from '../../assets/images/iphone16azulultramarino.png';
 import mobile6 from '../../assets/images/iphone16titanionegro.png';
 
-const CatalogSection = () => {
+const CatalogSection = ({ products = [] }) => {
   const mobileCarouselRef = useRef(null);
   const desktopCarouselRef = useRef(null);
 
@@ -16,14 +16,11 @@ const CatalogSection = () => {
   useEffect(() => {
     const handleWheel = (e) => {
       if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
-        // Es scroll horizontal, dejamos que el carrusel lo maneje
         return;
       }
-      // Si es vertical, detenemos la propagación
       e.stopPropagation();
     };
 
-    // Aplicar en ambos carruseles
     const mobileCarousel = mobileCarouselRef.current;
     const desktopCarousel = desktopCarouselRef.current;
 
@@ -57,7 +54,6 @@ const CatalogSection = () => {
     };
   }, []);
 
-  // Lógica adicional para móviles: detectar gestos verticales en el área del carrusel
   useEffect(() => {
     const carouselContainer = mobileCarouselRef.current;
     if (!carouselContainer) return;
@@ -74,10 +70,7 @@ const CatalogSection = () => {
       if (startX === null || startY === null) return;
       const diffX = Math.abs(e.touches[0].clientX - startX);
       const diffY = Math.abs(e.touches[0].clientY - startY);
-      // Si el movimiento vertical es mayor que el horizontal, liberamos el scroll.
       if (diffY > diffX) {
-        // Paramos la ejecución de la lógica del carrusel para permitir el scroll vertical.
-        // Con "stopPropagation" evitamos que el evento se consuma internamente en el carrusel.
         e.stopPropagation();
       }
     };
@@ -91,56 +84,9 @@ const CatalogSection = () => {
     };
   }, []);
 
-  const iphonesCatalog = [
-    {
-      id: 1,
-      name: 'Apple iPhone 16 De 128 Gb negro',
-      price: 'R$ 7.999',
-      imageUrl: mobile1,
-      description:
-        'Máxima potencia y eficiencia, ideal para profesionales y entusiastas de la tecnología.',
-    },
-    {
-      id: 2,
-      name: 'Apple iPhone 13 (128 Gb) - Azul Medianoche',
-      price: 'R$ 6.299',
-      imageUrl: mobile2,
-      description:
-        'Un gran equilibrio entre diseño y rendimiento para el uso diario.',
-    },
-    {
-      id: 3,
-      name: 'Apple iPhone 15 (128 GB) - Negro',
-      price: 'R$ 5.499',
-      imageUrl: mobile3,
-      description:
-        'El tamaño perfecto y la potencia que necesitas para trabajar y disfrutar.',
-    },
-    {
-      id: 4,
-      name: 'Apple iPhone 16 De 128 Gb Rosa',
-      price: 'R$ 4.799',
-      imageUrl: mobile4,
-      description:
-        'Diseño elegante, tecnología avanzada y excelente calidad de cámara.',
-    },
-    {
-      id: 5,
-      name: 'Apple iPhone 16 De 128 Gb Azul Ultramarino',
-      price: 'R$ 2.999',
-      imageUrl: mobile5,
-      description:
-        'Compacto, potente y accesible, ideal para quienes buscan calidad y economía.',
-    },
-    {
-      id: 6,
-      name: 'Apple iPhone 16 Pro (128 Gb) - Titanio Negro',
-      price: 'R$ 2.999',
-      imageUrl: mobile6,
-      description:
-        'Compacto, potente y accesible, ideal para quienes buscan calidad y economía.',
-    },
-  ];
+  if (!products || products.length === 0) {
+    return null;
+  }
 
   return (
     <section id="catalogo" className="relative py-16 bg-gray-50">
@@ -171,12 +117,12 @@ const CatalogSection = () => {
             showIndicators={true}
             useKeyboardArrows={false}
           >
-            {iphonesCatalog.map((iphone) => (
+            {products.map((iphone) => (
               <div key={iphone.id} className="pb-10">
                 <div className="bg-white rounded-xl shadow-lg p-4 mx-1 transform transition-all duration-300 hover:scale-[1.02]">
                   <div className="relative aspect-square mb-4 p-2">
                     <img
-                      src={iphone.imageUrl}
+                      src={iphone.image}
                       alt={iphone.name}
                       className="w-full h-full object-contain animate-float-slow"
                     />
@@ -220,12 +166,12 @@ const CatalogSection = () => {
             showIndicators={true}
             useKeyboardArrows={false}
           >
-            {iphonesCatalog.map((iphone) => (
+            {products.map((iphone) => (
               <div key={iphone.id} className="pb-10 px-2">
                 <div className="bg-white rounded-xl shadow-lg p-4 mx-2 transform transition-all duration-300 hover:scale-[1.02] hover:shadow-xl">
                   <div className="relative aspect-square mb-4 p-2">
                     <img
-                      src={iphone.imageUrl}
+                      src={iphone.image}
                       alt={iphone.name}
                       className="w-full h-full object-contain animate-float-slow"
                     />
