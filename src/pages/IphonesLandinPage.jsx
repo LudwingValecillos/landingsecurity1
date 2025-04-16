@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
@@ -10,18 +10,45 @@ import WhatsAppButton from "../components/WhatsAppButton";
 import imgprefooter from "../assets/images/fotterimnag.png";
 import ContactSection from "../components/iphone/ContactSection";
 import VideoSection from "../components/iphone/VideoSection";
+import {
+  fetchProducts
+} from '../data/api';
+import logo from '../assets/images/logo.png';
+
 function AppLandingPage() {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadProducts = async () => {
+      try {
+        const data = await fetchProducts();
+        setProducts(data);
+      } catch (error) {
+        console.error('Error loading products:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadProducts();
+  }, []);
+
   useEffect(() => {
     AOS.init({ duration: 1000 });
   }, []);
 
+  if (loading) {
+    return <div className="w-full h-screen flex items-center justify-center bg-gradient-to-b from-white to-blue-50 flex-col gap-2"> <img src={logo} alt="" className="animate-spin" />  <h1 className="text-3xl font-bold text-gray-800">Cargando productos</h1></div>;
+  }
+
   return (
     <div className="font-sans text-gray-800">
       {/* HERO: Sección Principal */}
-      <EnhancedHeroSection />
+      <EnhancedHeroSection products={products} />
       <AutoPlayVideo />
       <AboutSection />
-      <CatalogSection />
+      <CatalogSection products={products} />
       {/* CARACTERÍSTICAS DESTACADAS */}
       <section className="py-16 bg-gradient-to-b from-white to-blue-50">
         <div className="container mx-auto px-4">
