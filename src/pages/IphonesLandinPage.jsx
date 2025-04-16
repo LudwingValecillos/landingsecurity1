@@ -175,7 +175,7 @@ function AppLandingPage() {
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12" data-aos="fade-up">
-            <h2 className="text-4xl font-bold">
+            <h2 className="text-3xl lg:text-4xl font-bold">
               Lo que dicen quienes ya vinieron a{" "}
               <span className="text-blue-600">M-STORE</span>
             </h2>

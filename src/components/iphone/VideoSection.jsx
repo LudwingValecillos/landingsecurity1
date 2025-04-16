@@ -1,19 +1,34 @@
-import React, { useRef, useEffect, useState } from 'react';
-import video from '../../assets/images/large1.mp4';
+import React, { useRef, useEffect, useState } from "react";
+import video1 from "../../assets/images/large1.mp4";
+import video2 from "../../assets/images/large2.mp4";
 
 const VideoSection = () => {
-  const videoRef = useRef(null);
-  const [hasPlayed, setHasPlayed] = useState(false);
+  const video1Ref = useRef(null);
+  const video2Ref = useRef(null);
+  const [hasPlayedVideo1, setHasPlayedVideo1] = useState(false);
+  const [hasPlayedVideo2, setHasPlayedVideo2] = useState(false);
 
   useEffect(() => {
-    // Utilizamos IntersectionObserver para reproducir el video cuando se encuentre en el viewport
+    // Usamos IntersectionObserver para reproducir los videos cuando se encuentren en el viewport
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting && !hasPlayed) {
-            if (videoRef.current) {
-              videoRef.current.play().catch((err) => console.error('Error al reproducir el video:', err));
-              setHasPlayed(true);
+          if (entry.isIntersecting) {
+            // Verificamos cuál video es y lo reproducimos
+            if (entry.target === video1Ref.current && !hasPlayedVideo1) {
+              video1Ref.current
+                .play()
+                .catch((err) =>
+                  console.error("Error al reproducir el video 1:", err)
+                );
+              setHasPlayedVideo1(true);
+            } else if (entry.target === video2Ref.current && !hasPlayedVideo2) {
+              video2Ref.current
+                .play()
+                .catch((err) =>
+                  console.error("Error al reproducir el video 2:", err)
+                );
+              setHasPlayedVideo2(true);
             }
           }
         });
@@ -21,13 +36,18 @@ const VideoSection = () => {
       { threshold: 0.5 }
     );
 
-    if (videoRef.current) {
-      observer.observe(videoRef.current);
+    if (video1Ref.current) {
+      observer.observe(video1Ref.current);
     }
+    if (video2Ref.current) {
+      observer.observe(video2Ref.current);
+    }
+
     return () => {
-      if (videoRef.current) observer.unobserve(videoRef.current);
+      if (video1Ref.current) observer.unobserve(video1Ref.current);
+      if (video2Ref.current) observer.unobserve(video2Ref.current);
     };
-  }, [hasPlayed]);
+  }, [hasPlayedVideo1, hasPlayedVideo2]);
 
   return (
     <section className="py-16 bg-gradient-to-b from-white to-gray-100">
@@ -35,46 +55,89 @@ const VideoSection = () => {
         <div className="text-center mb-10">
           <h2 className="text-3xl font-bold text-gray-800">Nuestra Oficina</h2>
           <div className="h-1 w-24 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto mt-3"></div>
+          <p className="textt-black text-center text-xl font-bold  mt-4  mx-auto">
+            Conoce nuestras instalaciones y el proceso de compra segura que te
+            ofrecemos para tu nuevo iPhone
+          </p>
         </div>
 
-        <div className="flex flex-col lg:flex-row items-center gap-8">
-          {/* Video Container */}
-          <div className="w-full lg:w-3/5 rounded-xl overflow-hidden shadow-2xl">
-            <div className="relative aspect-video">
+        {/* Video horizontal que ocupa todo el ancho */}
+        <div className="w-full rounded-xl overflow-hidden shadow-2xl mb-8">
+          <div className="relative aspect-video">
+            <h3 className="absolute top-0 left-0 bg-blue-500 text-white px-3 py-1 text-sm rounded-br-lg z-10">
+              Nuestras Instalaciones
+            </h3>
+            <video
+              ref={video1Ref}
+              className="absolute inset-0 object-cover w-full h-full"
+              src={video1}
+              loop
+              muted
+              playsInline
+              preload="auto"
+              title="Oficina M-STORE"
+              controls
+            >
+              <source src={video1} type="video/mp4" />
+              Tu navegador no soporta el elemento de video.
+            </video>
+          </div>
+          <div className="bg-gray-50 rounded-b-lg p-3 text-center">
+            <p className=" textt-black">
+              <span className="text-blue-500">↑</span> Conoce nuestra oficina
+              en el centro de CABA
+            </p>
+          </div>
+        </div>
+
+        {/* Contenedor para video vertical e información */}
+        <div className="flex flex-col md:flex-row gap-8">
+          {/* Video vertical */}
+          <div className="w-full md:w-1/3 rounded-xl overflow-hidden shadow-xl">
+            <div className="relative aspect-[9/16]">
+              <h3 className="absolute top-0 left-0 bg-purple-500 text-white px-3 py-1 text-sm rounded-br-lg z-10">
+                Proceso de Compra
+              </h3>
               <video
-                ref={videoRef}
-                className="absolute inset-0 object-cover"
-                src={video}
-                autoPlay
+                ref={video2Ref}
+                className="absolute inset-0 object-cover w-full h-full"
+                src={video2}
                 loop
                 muted
                 playsInline
                 preload="auto"
-                title="large1"
-                // Opcional: puedes agregar un poster para mejor UX en la carga
-                // poster="/path/to/poster.jpg"
+                title="Proceso de compra"
+                controls
               >
-                <source src={video} type="video/mp4" />
+                <source src={video2} type="video/mp4" />
                 Tu navegador no soporta el elemento de video.
               </video>
             </div>
+            <div className="bg-gray-50 rounded-b-lg p-3 text-center">
+              <p className=" textt-black">
+                <span className="text-purple-500">↑</span> Conoce el proceso de
+                asesoramiento y compra
+              </p>
+            </div>
           </div>
 
-          {/* Content Container */}
-          <div className="w-full lg:w-2/5 mt-8 lg:mt-0">
-            <div className="bg-white rounded-xl shadow-lg p-8 border border-blue-100">
-              <h3 className="text-2xl font-bold text-gray-800 mb-4">
+          {/* Información */}
+          <div className="w-full md:w-2/3">
+            <div className="bg-white rounded-xl shadow-lg p-8 border border-blue-100 h-full">
+              <h3 className="text-xl text-center lg:text-2xl font-bold text-gray-800 ">
                 Visítanos en nuestra oficina
               </h3>
+              <div className="h-1 w-24 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto mb-4"></div>
 
-              <p className="text-gray-600 mb-6">
-                En <span className="text-blue-500 font-bold">M-STORE</span> nos enorgullecemos de ofrecerte
-                un espacio cómodo y seguro para que conozcas y retires tu nuevo iPhone. Ubicados
-                estratégicamente en CABA, contamos con un showroom donde podrás verificar tu equipo
+              <p className="textt-black mb-6">
+                En <span className="text-blue-500 font-bold">M-STORE</span> nos
+                enorgullecemos de ofrecerte un espacio cómodo y seguro para que
+                conozcas y retires tu nuevo iPhone. Ubicados estratégicamente en
+                CABA, contamos con un showroom donde podrás verificar tu equipo
                 antes de realizar la compra.
               </p>
 
-              <div className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="flex items-start gap-3">
                   <div className="text-blue-500 mt-1">
                     <svg
@@ -98,9 +161,12 @@ const VideoSection = () => {
                     </svg>
                   </div>
                   <div>
-                    <h4 className="font-medium text-gray-800">Ubicación Céntrica</h4>
-                    <p className="text-gray-600 text-sm">
-                      En pleno centro de CABA, con fácil acceso por transporte público.
+                    <h4 className="font-medium text-gray-800">
+                      Ubicación Céntrica
+                    </h4>
+                    <p className="textt-black text-sm">
+                      En pleno centro de CABA, con fácil acceso por transporte
+                      público.
                     </p>
                   </div>
                 </div>
@@ -123,9 +189,12 @@ const VideoSection = () => {
                     </svg>
                   </div>
                   <div>
-                    <h4 className="font-medium text-gray-800">Horario Extendido</h4>
-                    <p className="text-gray-600 text-sm">
-                      Lunes a viernes de 10:00 a 19:00 hs y sábados de 10:00 a 14:00 hs.
+                    <h4 className="font-medium text-gray-800">
+                      Horario Extendido
+                    </h4>
+                    <p className="textt-black text-sm">
+                      Lunes a viernes de 10:00 a 19:00 hs y sábados de 10:00 a
+                      14:00 hs.
                     </p>
                   </div>
                 </div>
@@ -148,23 +217,70 @@ const VideoSection = () => {
                     </svg>
                   </div>
                   <div>
-                    <h4 className="font-medium text-gray-800">Atención Personalizada</h4>
-                    <p className="text-gray-600 text-sm">
+                    <h4 className="font-medium text-gray-800">
+                      Atención Personalizada
+                    </h4>
+                    <p className="textt-black text-sm">
                       Nuestros asesores te guiarán y despejarán todas tus dudas.
                     </p>
                   </div>
                 </div>
+
+                <div className="flex items-start gap-3">
+                  <div className="text-purple-500 mt-1">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="w-5 h-5"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z"
+                      />
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 className="font-medium text-gray-800">Compra Segura</h4>
+                    <p className="textt-black text-sm">
+                      Verificá tu equipo antes de finalizar la compra y obtené
+                      garantía oficial.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div
+                className="rounded-2xl shadow-xl h-[250px]  mt-2"
+                data-aos="fade-up"
+                data-aos-duration="1000"
+              >
+                <iframe
+                  title="mapa"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3283.997229234464!2d-58.39003602425973!3d-34.60423157295409!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bccac41f95bf57%3A0xb5d19b7830d5cf6b!2sAv.%20Corrientes%201464%20piso%204%20Oficina%201%2C%20C1042AAN%20Cdad.%20Aut%C3%B3noma%20de%20Buenos%20Aires!5e0!3m2!1ses-419!2sar!4v1743399802839!5m2!1ses-419!2sar"
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  allowFullScreen=""
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  className="w-full h-full rounded-2xl"
+                ></iframe>
               </div>
 
-              <div className="mt-8">
+              <div className="mt-8 flex justify-end">
                 <button
                   onClick={() =>
                     window.open(
-                      'https://wa.me/5491123900395?text=Hola,%20estoy%20interesado%20en%20el%20comprar%20un%20iPhone%20y%20me%20gustaría%20saber%20más%20detalles%20sobre%20los%20productos%20disponibles%20y%20las%20ofertas%20actuales.',
-                      '_blank'
+                      "https://wa.me/5491123900395?text=Hola,%20estoy%20interesado%20en%20el%20comprar%20un%20iPhone%20y%20me%20gustaría%20saber%20más%20detalles%20sobre%20los%20productos%20disponibles%20y%20las%20ofertas%20actuales.",
+                      "_blank"
                     )
+                    
                   }
-                  className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-medium py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out flex items-center gap-2"
+
+                  className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-medium py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out flex items-center gap-2 w-full md:w-auto justify-center"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -172,7 +288,7 @@ const VideoSection = () => {
                     viewBox="0 0 24 24"
                     strokeWidth={1.5}
                     stroke="currentColor"
-                    className="w-5 h-5"
+                    className="w-5 h-5 text-center"
                   >
                     <path
                       strokeLinecap="round"
