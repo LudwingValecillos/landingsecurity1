@@ -13,7 +13,7 @@ import VideoSection from "../components/iphone/VideoSection";
 import {
   fetchProducts
 } from '../data/api';
-import logo from '../assets/images/logo.png';
+import Loading from "../components/iphone/Loading";
 
 function AppLandingPage() {
   const [products, setProducts] = useState([]);
@@ -39,7 +39,9 @@ function AppLandingPage() {
   }, []);
 
   if (loading) {
-    return <div className="w-full h-screen flex items-center justify-center bg-gradient-to-b from-white to-blue-50 flex-col gap-2"> <img src={logo} alt="" className="animate-spin" />  <h1 className="text-3xl font-bold text-gray-800">Cargando productos</h1></div>;
+    return (
+     <Loading/>
+    );
   }
 
   return (
