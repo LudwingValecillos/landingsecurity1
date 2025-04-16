@@ -144,8 +144,8 @@ const AdminPage = () => {
     <div className="bg-gray-50 min-h-screen">
       {/* Header con logo y título */}
       <div className="bg-gradient-to-r from-purple-600 to-purple-800 text-white shadow-md">
-        <div className="container mx-auto py-4 px-4 sm:px-6 flex justify-between items-center">
-          <div className="flex items-center space-x-2">
+        <div className="container mx-auto py-4 px-4 sm:px-6 flex flex-col sm:flex-row justify-between items-center">
+          <div className="flex items-center justify-evenly space-x-2">
             <img src={logo} alt="M-STORE" className="h-8" />
             <h1 className="text-2xl font-bold">Panel de Administración</h1>
           </div>
