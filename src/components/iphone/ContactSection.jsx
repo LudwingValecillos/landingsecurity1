@@ -510,6 +510,19 @@ const ContactSection = () => {
             </div>
           </div>
         </div>
+        <div className="flex flex-col items-center justify-end mt-4 ">
+          <a
+            href="https://nextcode.com.ar/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className=" rounded-lg shadow-md p-4 flex items-center justify-center hover:shadow-lg transition-all duration-300 bg-green-50"
+          >
+            <div className="flex items-center justify-center  rounded-lg bg-green-50">
+              <h3 className="text-lg font-semibold mb-2">Made by</h3>
+              <img src="https://nextcode.com.ar/static/media/sinfondoaa.3be122d06364610676f1.png" alt="" className="w-52 h-12" />
+            </div>
+          </a>
+        </div>
       </div>
     </section>
   );
