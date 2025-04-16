@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const Login = () => {
   const [Usuario, setUsuario] = useState('');
@@ -21,6 +21,11 @@ const Login = () => {
       setSaludo("Usurio o contraseña incorrecto")
     }
   };
+  useEffect(() => {
+    if (localStorage.getItem("login")) {
+      window.location.href = "/admin";
+    }
+  }, []);
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-blue-100">
