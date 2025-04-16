@@ -16,7 +16,7 @@ const Login = () => {
     if(Usuario == "admin" && password == "admin"){
       setSaludo("Hola")
       localStorage.setItem("login", true);
-      window.location.href = "/";
+      window.location.href = "/admin";
     }else {
       setSaludo("Usurio o contraseña incorrecto")
     }
