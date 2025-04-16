@@ -14,6 +14,7 @@ import {
   fetchProducts
 } from '../data/api';
 import Loading from "../components/iphone/Loading";
+import AdminButton from "../components/AdminButton";
 
 function AppLandingPage() {
   const [products, setProducts] = useState([]);
@@ -23,7 +24,7 @@ function AppLandingPage() {
     const loadProducts = async () => {
       try {
         const data = await fetchProducts();
-        setProducts(data);
+        setProducts(data.filter(product => product.active === true));
       } catch (error) {
         console.error('Error loading products:', error);
       } finally {
@@ -258,6 +259,7 @@ function AppLandingPage() {
         </div>
       </section>
 
+<AdminButton />
       <VideoSection />
       <ContactSection />
       <WhatsAppButton text={true} />
