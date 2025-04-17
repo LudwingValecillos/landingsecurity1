@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   ShieldCheckIcon,
   SparklesIcon,
@@ -7,8 +7,19 @@ import {
 } from "@heroicons/react/24/outline";
 import aboutImage1 from "../../assets/images/fotterimnag.png";
 import gif from "../../assets/images/giphy.webp";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 const AboutSection = () => {
+  useEffect(() => {
+    AOS.init({
+      duration: 1200,
+      offset: 700, // dispara más cerca del viewport
+      once: true, // sólo una vez por elemento
+      anchorPlacement: "top-bottom", // top of element hits bottom of viewport
+    });
+    AOS.refresh(); // recalcula posiciones tras cargar contenido
+  }, []);
   return (
     <section className="bg-gradient-to-b from-[#101010] to-[#000000] py-12">
       <div className="container mx-auto px-4">

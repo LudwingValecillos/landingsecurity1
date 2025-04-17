@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import contactImage from "../../assets/images/puertomadero.jpg";
 import face from "../../assets/images/facebook-color-svgrepo-com.svg";
 import insta from "../../assets/images/instagram-1-svgrepo-com.svg";
+import logo from "../../assets/images/logo.png";
 
 const ContactSection = () => {
   const [formData, setFormData] = useState({
@@ -481,48 +482,32 @@ const ContactSection = () => {
               {/* Botón de Tienda */}
               <div className="pt-6" data-aos="fade-up" data-aos-delay="400">
                 <a
-                  href={`https://wa.me/+5491123900395?text=${encodeURIComponent(
-                    "Hola, estoy interesado en un Iphone, me darias mas información?"
-                  )}`}
+                  href="https://tiendamstore.com"
                   target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center w-full px-6 py-3 text-base font-medium text-white bg-[#1eaf54] rounded-lg shadow-md hover:bg-[#2980B9]/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2980B9] transform transition-all duration-300 hover:scale-105"
+                  className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-medium py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out flex items-center gap-2 w-full md:w-auto justify-center"
                 >
-                  <span className="mr-2">🛍️</span>
-                  <p className="text-sm md:text-base font-medium">
-                    Contactanos
-                  </p>
-                  <svg
-                    className="w-5 h-5 ml-2"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M14 5l7 7m0 0l-7 7m7-7H3"
-                    />
-                  </svg>
+                  <img src={logo} alt="" className="w-8 h-7 text-center" />
+                  Visita Nuestra Tienda Online
                 </a>
               </div>
             </div>
           </div>
         </div>
-        <div className="flex flex-col items-center justify-end mt-4 ">
-          <a
-            href="https://nextcode.com.ar/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className=" rounded-lg shadow-md p-4 flex items-center justify-center hover:shadow-lg transition-all duration-300 bg-green-50"
-          >
-            <div className="flex items-center justify-center  rounded-lg bg-green-50">
-              <h3 className="text-lg font-semibold mb-2">Made by</h3>
-              <img src="https://nextcode.com.ar/static/media/sinfondoaa.3be122d06364610676f1.png" alt="" className="w-52 h-12" />
-            </div>
-          </a>
-        </div>
+
+        <a
+          href="https://nextcode.com.ar"
+          target="_blank"
+          className="bg-white/10 backdrop-blur-sm rounded-xl p-4 shadow-lg border border-white/20 flex items-center justify-center gap-3 mx-auto max-w-md mt-6 mb-8"
+        >
+          <span className="text-white font-medium">Made by</span>
+          <div className="flex items-center bg-white/95 rounded-lg px-3 py-2 transition-all hover:bg-white hover:shadow-md">
+            <img
+              src="https://nextcode.com.ar/static/media/sinfondoaa.3be122d06364610676f1.png"
+              alt="NextCode Logo"
+              className="w-32 h-8 object-contain"
+            />
+          </div>
+        </a>
       </div>
     </section>
   );
