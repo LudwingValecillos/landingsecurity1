@@ -1,6 +1,8 @@
 import React, { useRef, useEffect, useState } from "react";
 import video1 from "../../assets/images/large1.mp4";
 import video2 from "../../assets/images/large2.mp4";
+import logo from "../../assets/images/logo.png";
+import { CalendarDays } from "lucide-react";
 
 const VideoSection = () => {
   const video1Ref = useRef(null);
@@ -84,8 +86,8 @@ const VideoSection = () => {
           </div>
           <div className="bg-gray-50 rounded-b-lg p-3 text-center">
             <p className=" textt-black">
-              <span className="text-blue-500">↑</span> Conoce nuestra oficina
-              en el centro de CABA
+              <span className="text-blue-500">↑</span> Conoce nuestra oficina en
+              el centro de CABA
             </p>
           </div>
         </div>
@@ -270,34 +272,27 @@ const VideoSection = () => {
                 ></iframe>
               </div>
 
-              <div className="mt-8 flex justify-end">
+              <div className="mt-8 flex flex-col lg:flex-row items-center justify-evenly gap-4">
                 <button
                   onClick={() =>
                     window.open(
                       "https://wa.me/5491123900395?text=Hola,%20estoy%20interesado%20en%20el%20comprar%20un%20iPhone%20y%20me%20gustaría%20saber%20más%20detalles%20sobre%20los%20productos%20disponibles%20y%20las%20ofertas%20actuales.",
                       "_blank"
                     )
-                    
                   }
-
                   className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-medium py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out flex items-center gap-2 w-full md:w-auto justify-center"
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="w-5 h-5 text-center"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"
-                    />
-                  </svg>
+                  <CalendarDays />
                   Agendar Visita
                 </button>
+                <a
+                  href="https://tiendamstore.com"
+                  target="_blank"
+                  className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-medium py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out flex items-center gap-2 w-full md:w-auto justify-center"
+                >
+                  <img src={logo} alt="" className="w-7 h-6 text-center" />
+                  Visita Nuestra Tienda Online
+                </a>
               </div>
             </div>
           </div>

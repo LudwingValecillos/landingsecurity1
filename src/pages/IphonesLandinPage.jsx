@@ -10,9 +10,7 @@ import WhatsAppButton from "../components/WhatsAppButton";
 import imgprefooter from "../assets/images/fotterimnag.png";
 import ContactSection from "../components/iphone/ContactSection";
 import VideoSection from "../components/iphone/VideoSection";
-import {
-  fetchProducts
-} from '../data/api';
+import { fetchProducts } from "../data/api";
 import Loading from "../components/iphone/Loading";
 import AdminButton from "../components/AdminButton";
 
@@ -24,9 +22,9 @@ function AppLandingPage() {
     const loadProducts = async () => {
       try {
         const data = await fetchProducts();
-        setProducts(data.filter(product => product.active === true));
+        setProducts(data.filter((product) => product.active === true));
       } catch (error) {
-        console.error('Error loading products:', error);
+        console.error("Error loading products:", error);
       } finally {
         setLoading(false);
       }
@@ -36,14 +34,18 @@ function AppLandingPage() {
   }, []);
 
   useEffect(() => {
-    AOS.init({ duration: 1000 });
-  }, []);
+    if (!loading) {
+      AOS.init({
+        duration: 1200,
+        offset: 150, // dispara más cerca del viewport
+        once: true, // sólo una vez por elemento
+        anchorPlacement: "top-bottom", // top of element hits bottom of viewport
+      });
+      AOS.refresh(); // recalcula posiciones tras cargar contenido
+    }
+  }, [loading]);
 
-  if (loading) {
-    return (
-     <Loading/>
-    );
-  }
+  if (loading) return <Loading />;
 
   return (
     <div className="font-sans text-gray-800">
@@ -139,33 +141,53 @@ function AppLandingPage() {
               },
             ].map((item, index) => (
               <div
-                key={index}
-                className={`flex flex-col rounded-xl overflow-hidden border ${item.borderColor} shadow-lg transform transition-all duration-300 hover:scale-105 hover:shadow-xl ${item.bgColor}`}
-                data-aos="fade-up"
-                data-aos-delay={index * 150}
-              >
-                <div className={`h-2 bg-gradient-to-r ${item.gradient}`}></div>
-                <div className="p-6">
-                  <div className="flex items-center mb-4">
-                    <div
-                      className={`w-12 h-12 rounded-full flex items-center justify-center bg-gradient-to-br ${item.gradient} text-white shadow-md`}
-                    >
-                      {item.icon}
-                    </div>
-                    <h3 className="text-xl font-bold ml-4 text-gray-800">
-                      {item.title}
-                    </h3>
-                  </div>
-                  <p className="text-gray-600 text-lg leading-relaxed">
-                    {item.text}
-                  </p>
-                  <div className="mt-4 flex justify-end">
-                    <div
-                      className={`h-1 w-12 rounded-full bg-gradient-to-r ${item.gradient}`}
-                    ></div>
-                  </div>
-                </div>
-              </div>
+      key={index}
+      className={`
+        flex flex-col rounded-xl overflow-hidden border ${item.borderColor}
+        shadow-lg transform transition-all duration-300 hover:scale-105 hover:shadow-xl
+        ${item.bgColor}
+      `}
+      data-aos="fade-up"
+      data-aos-delay={index * 150}
+    >
+      {/* barra de color superior sin cambios */}
+      <div className={`h-2 bg-gradient-to-r ${item.gradient}`}></div>
+
+      {/* padding adaptativo */}
+      <div className="p-3 md:p-6">
+        {/* contenedor de icono + título */}
+        <div className="flex items-center mb-2 md:mb-4">
+          <div
+            className={`
+              rounded-full flex items-center justify-center bg-gradient-to-br ${item.gradient}
+              text-white shadow-md
+              w-8 h-8 md:w-12 md:h-12
+            `}
+          >
+            {item.icon}
+          </div>
+          <h3 className="font-bold ml-3 md:ml-4 text-lg md:text-xl text-gray-800">
+            {item.title}
+          </h3>
+        </div>
+
+        {/* texto interior con línea base más pequeña */}
+        <p className="text-gray-600 text-base md:text-lg leading-relaxed">
+          {item.text}
+        </p>
+
+        {/* línea de acento inferior */}
+        <div className="mt-3 md:mt-4 flex justify-end">
+          <div
+            className={`
+              rounded-full h-1
+              w-10 md:w-12
+              bg-gradient-to-r ${item.gradient}
+            `}
+          ></div>
+        </div>
+      </div>
+    </div>
             ))}
           </div>
         </div>
@@ -259,7 +281,7 @@ function AppLandingPage() {
         </div>
       </section>
 
-<AdminButton />
+      <AdminButton />
       <VideoSection />
       <ContactSection />
       <WhatsAppButton text={true} />
