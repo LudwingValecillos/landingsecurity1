@@ -19,15 +19,14 @@ const convertFileToBase64 = (file) => {
 // Funciones de Productos
 // ----------------------------
 
-const formatPrice = (price) => {
-  if (typeof price === 'string') {
-    // Eliminar 'R$' o 'USD' y espacios
-    const cleanPrice = price.replace(/R\$|\sUSD/g, '').trim();
-    // Convertir a número y formatear
-    const numPrice = parseFloat(cleanPrice.replace(',', '.'));
-    return `${numPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD`;
-  }
-  return `${parseFloat(price).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD`;
+const formatPrice = (priceStr) => {
+  // Ensure the input is a string
+  const price = String(priceStr);
+
+  // Use a regular expression to add thousand separators
+  const formattedPrice = price.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+
+  return `${formattedPrice}`;
 };
 
 const processProduct = (product) => {
@@ -297,9 +296,7 @@ export const addNewProduct = async (product) => {
     const newProduct = processProduct({
       id: crypto.randomUUID(),
       name: product.name,
-      price: typeof product.price === 'string'
-        ? parseFloat(product.price.replace(/\./g, ''))
-        : product.price,
+      price: product.price,  // Mantener el precio tal cual se ingresa
       category: product.category,
       image: imageUrl,
       active: true,
