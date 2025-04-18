@@ -58,7 +58,7 @@ const CatalogSection = ({ products = [] }) => {
                     <p className="text-gray-500 text-sm mb-3 line-clamp-2">{product.description}</p>
                     <div className="flex flex-col gap-3">
                       <div className="flex items-center justify-center">
-                        <span className="text-2xl text-center font-bold text-purple-600">${product.price}</span>
+                        <span className="text-xl text-center font-bold text-purple-600">${product.price} USD</span>
                       </div>
                       <button 
                         onClick={() =>
@@ -123,8 +123,8 @@ const CatalogSection = ({ products = [] }) => {
                     <p className="text-gray-500 text-sm mb-4 line-clamp-2 flex-grow">{product.description}</p>
                     <div className="flex items-center justify-between mt-auto">
                       <div className="flex flex-col">
-                        <span className="text-2xl font-bold text-purple-600">${product.price}</span>
-                      </div>
+                        <span className="text-xl font-bold text-purple-600">${product.price + " USD"}</span>
+                      </div>  
                       <button
                         onClick={() =>
                           window.open(

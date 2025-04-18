@@ -274,7 +274,7 @@ const EnhancedHeroSection = ({ products = [] }) => {
                 whileHover={{ scale: 1.1 }}
               >
                 <span className="font-bold text-white text-lg">
-                  {currentModel?.price || "USD 0"}
+                  {"$ " + currentModel?.price + " USD"|| "USD 0"}
                 </span>
                 <motion.span 
                   className="text-xs text-white bg-red-500 px-2 py-0.5 rounded-full mt-1 font-bold"

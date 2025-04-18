@@ -17,18 +17,20 @@ const ProductAdminCard = ({
     product.price ? product.price.replace(' USD', '').replace('.', '') : ''
   );
 
-  const handlePriceSubmit = () => {
-    if (newPrice.trim()) {
-      const numericPrice = parseFloat(newPrice.replace(',', '.'));
-      if (!isNaN(numericPrice)) {
-        onUpdatePrice(product.id, `${numericPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD`);
+  const handlePriceSubmit = async () => {
+    if (newPrice.trim()) {      
+        onUpdatePrice(product.id, newPrice.replace(/\./g, ''));
         setEditingPrice(false);
       }
-    }
+    };
+
+  const formatPriceWithDots = (price) => {
+    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   };
 
   return (
     <div
+
       className={`border rounded-xl p-3 flex flex-col relative shadow-sm transition-all duration-200 hover:shadow-md ${
         product.active ? 'bg-white' : 'bg-gray-100'
       } ${product.offer ? 'border-purple-400' : 'border-gray-200'}`}
@@ -105,9 +107,11 @@ const ProductAdminCard = ({
             <div className="relative flex-grow">
               <span className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-500">$</span>
               <input
-                type="text"
-                value={newPrice}
-                onChange={(e) => setNewPrice(e.target.value)}
+                type="text"                
+                value={formatPriceWithDots(newPrice)}
+                onChange={(e) => {
+                  setNewPrice(e.target.value.replace(/\./g, ""));
+                }}
                 className="w-full p-2 pl-6 border border-purple-300 focus:border-purple-500 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-purple-500"
                 placeholder="Precio"
                 autoFocus
@@ -125,7 +129,7 @@ const ProductAdminCard = ({
             <div className="flex items-center">
               <TagIcon className="h-4 w-4 text-purple-600 mr-1" />
               <p className="font-bold text-sm sm:text-base text-purple-600">
-                {product.price}
+                {product.price} USD
               </p>
             </div>
             <button
