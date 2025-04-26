@@ -124,7 +124,6 @@ const VideoSection = () => {
     </h3>
     <video
       className="absolute inset-0 object-cover w-full h-full"
-      muted
       playsInline
       preload="none"
       loop
@@ -154,7 +153,6 @@ const VideoSection = () => {
               </h3>
               <video
                 className="absolute inset-0 object-cover w-full h-full"
-                muted
                 playsInline
                 preload="none"
                 loop
