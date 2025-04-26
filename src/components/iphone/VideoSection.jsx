@@ -1,56 +1,45 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import video1 from "../../assets/images/large1.mp4";
 import video2 from "../../assets/images/large2.mp4";
 import video3 from "../../assets/images/large3.mp4";
 import logo from "../../assets/images/logo.png";
+import imageVideo2 from "../../assets/images/place1.png"
+import imageVideo3 from "../../assets/images/place2.png"
+
 import { CalendarDays } from "lucide-react";
 
 const VideoSection = () => {
-  const videoRefs = useRef([]);
-  const [playedVideos, setPlayedVideos] = useState({});
+  // Referencia solo para el primer video que sí se reproducirá automáticamente
+  const firstVideoRef = useRef(null);
 
-  // Use a single observer for all videos
+  // Efecto para el autoplay solo del primer video
   useEffect(() => {
-    // Create a low-priority observer to detect when videos enter viewport
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const videoId = entry.target.dataset.videoId;
-            // Only play if not already played
-            if (!playedVideos[videoId]) {
-              // Lazy play with a small timeout to prevent UI blocking
-              setTimeout(() => {
-                entry.target.play().catch(err => 
-                  console.error(`Error playing video ${videoId}:`, err)
-                );
-                setPlayedVideos(prev => ({ ...prev, [videoId]: true }));
-              }, 100);
-            }
+    // Solo configuramos observer para el primer video
+    if (firstVideoRef.current) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          const entry = entries[0];
+          if (entry && entry.isIntersecting) {
+            // Retrasamos la reproducción para evitar bloqueo de UI
+            setTimeout(() => {
+              firstVideoRef.current?.play().catch((err) =>
+                console.error("Error al reproducir el primer video:", err)
+              );
+              // Desconectamos el observer después de la reproducción
+              observer.disconnect();
+            }, 300);
           }
-        });
-      },
-      { threshold: 0.1, rootMargin: "50px" } // Lower threshold for earlier loading
-    );
+        },
+        { threshold: 0.3, rootMargin: "100px" }
+      );
 
-    // Observe all video elements
-    videoRefs.current.forEach(video => {
-      if (video) observer.observe(video);
-    });
-
-    return () => {
-      videoRefs.current.forEach(video => {
-        if (video) observer.unobserve(video);
-      });
-    };
-  }, [playedVideos]);
-
-  const addVideoRef = (el, index) => {
-    if (el) {
-      el.dataset.videoId = `video-${index}`;
-      videoRefs.current[index] = el;
+      observer.observe(firstVideoRef.current);
+      
+      return () => {
+        observer.disconnect();
+      };
     }
-  };
+  }, []);
 
   const handleVisitClick = () => {
     window.open(
@@ -58,6 +47,32 @@ const VideoSection = () => {
       "_blank"
     );
   };
+  useEffect(() => {
+    // Observador para cargar el iframe del mapa cuando sea visible
+    const mapObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const iframe = entry.target;
+            if (iframe.getAttribute('src') === 'about:blank') {
+              iframe.setAttribute('src', iframe.dataset.src);
+            }
+            mapObserver.unobserve(iframe);
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: '200px' }
+    );
+  
+    // Observar todos los iframes
+    document.querySelectorAll('iframe[data-src]').forEach(iframe => {
+      mapObserver.observe(iframe);
+    });
+  
+    return () => {
+      mapObserver.disconnect();
+    };
+  }, []);
 
   return (
     <section className="py-16 bg-gradient-to-b from-white to-gray-100">
@@ -71,22 +86,22 @@ const VideoSection = () => {
           </p>
         </div>
 
-        {/* Video horizontal que ocupa todo el ancho */}
+        {/* Videos horizontales */}
         <div className="flex flex-col lg:flex-row justify-center items-center gap-4">
-          {/* First video */}
+          {/* Primer video - con autoplay */}
           <div className="w-full rounded-xl overflow-hidden shadow-2xl mb-8">
             <div className="relative aspect-video">
               <h3 className="absolute top-0 left-0 bg-blue-500 text-white px-3 py-1 text-sm rounded-br-lg z-10">
                 Nuestras Instalaciones
               </h3>
               <video
-                ref={(el) => addVideoRef(el, 0)}
+                ref={firstVideoRef}
                 className="absolute inset-0 object-cover w-full h-full"
                 muted
                 playsInline
-                preload="none" // Change to 'none' to prevent immediate loading
+                preload="metadata"
                 loop
-                poster="/api/placeholder/640/360" // Add a placeholder image
+                poster="/api/placeholder/640/360"
                 controls
               >
                 <source src={video1} type="video/mp4" />
@@ -101,51 +116,49 @@ const VideoSection = () => {
             </div>
           </div>
 
-          {/* Second horizontal video */}
+          {/* Segundo video - sin autoplay */}
           <div className="w-full rounded-xl overflow-hidden shadow-2xl mb-8">
-            <div className="relative aspect-video">
-              <h3 className="absolute top-0 left-0 bg-blue-500 text-white px-3 py-1 text-sm rounded-br-lg z-10">
-                Retirá tu iPhone en <span className="font-bold"> M-STORE</span>
-              </h3>
-              <video
-                ref={(el) => addVideoRef(el, 1)}
-                className="absolute inset-0 object-cover w-full h-full"
-                muted
-                playsInline
-                preload="none"
-                loop
-                poster="/api/placeholder/640/360"
-                controls
-              >
-                <source src={video3} type="video/mp4" />
-                Tu navegador no soporta el elemento de video.
-              </video>
-            </div>
-            <div className="bg-gray-50 rounded-b-lg p-3 text-center">
-              <p className="textt-black">
-                <span className="text-blue-500">↑</span> Te invitamos a nuestra
-                oficina en el centro de CABA para retirar tu iPhone.
-              </p>
-            </div>
-          </div>
+  <div className="relative aspect-video">
+    <h3 className="absolute top-0 left-0 bg-blue-500 text-white px-3 py-1 text-sm rounded-br-lg z-10">
+      Retirá tu iPhone en <span className="font-bold"> M-STORE</span>
+    </h3>
+    <video
+      className="absolute inset-0 object-cover w-full h-full"
+      muted
+      playsInline
+      preload="none"
+      loop
+      poster={imageVideo2}
+      controls
+    >
+      <source src={video3} type="video/mp4" />
+      Tu navegador no soporta el elemento de video.
+    </video>
+  </div>
+  <div className="bg-gray-50 rounded-b-lg p-3 text-center">
+    <p className="textt-black">
+      <span className="text-blue-500">↑</span> Te invitamos a nuestra
+      oficina en el centro de CABA para retirar tu iPhone.
+    </p>
+  </div>
+</div>
         </div>
 
         {/* Contenedor para video vertical e información */}
         <div className="flex flex-col md:flex-row gap-8">
-          {/* Video vertical */}
+          {/* Video vertical - sin autoplay */}
           <div className="w-full md:w-1/3 rounded-xl overflow-hidden shadow-xl">
             <div className="relative aspect-[9/16]">
               <h3 className="absolute top-0 left-0 bg-purple-500 text-white px-3 py-1 text-sm rounded-br-lg z-10">
                 Proceso de Compra
               </h3>
               <video
-                ref={(el) => addVideoRef(el, 2)}
                 className="absolute inset-0 object-cover w-full h-full"
                 muted
                 playsInline
                 preload="none"
                 loop
-                poster="/api/placeholder/360/640"
+                poster={imageVideo3}
                 controls
               >
                 <source src={video2} type="video/mp4" />
@@ -292,18 +305,25 @@ const VideoSection = () => {
                   </div>
                 </div>
               </div>
-              
+
               {/* Map - lazy loaded */}
               <div className="rounded-2xl shadow-xl h-64 mt-2">
                 <iframe
                   title="mapa"
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3283.997229234464!2d-58.39003602425973!3d-34.60423157295409!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bccac41f95bf57%3A0xb5d19b7830d5cf6b!2sAv.%20Corrientes%201464%20piso%204%20Oficina%201%2C%20C1042AAN%20Cdad.%20Aut%C3%B3noma%20de%20Buenos%20Aires!5e0!3m2!1ses-419!2sar!4v1743399802839!5m2!1ses-419!2sar"
+                  loading="lazy"
+                  src="about:blank"
+                  data-src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3283.997229234464!2d-58.39003602425973!3d-34.60423157295409!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bccac41f95bf57%3A0xb5d19b7830d5cf6b!2sAv.%20Corrientes%201464%20piso%204%20Oficina%201%2C%20C1042AAN%20Cdad.%20Aut%C3%B3noma%20de%20Buenos%20Aires!5e0!3m2!1ses-419!2sar!4v1743399802839!5m2!1ses-419!2sar"
                   width="100%"
                   height="100%"
                   style={{ border: 0 }}
-                  loading="lazy" // This attribute is already correctly set
                   referrerPolicy="no-referrer-when-downgrade"
                   className="w-full h-full rounded-2xl"
+                  onLoad={(e) => {
+                    // Cuando el iframe esté visible, cargar el mapa real
+                    if (e.target.getAttribute('src') === 'about:blank') {
+                      e.target.setAttribute('src', e.target.dataset.src);
+                    }
+                  }}
                 ></iframe>
               </div>
 
@@ -318,7 +338,7 @@ const VideoSection = () => {
                 <a
                   href="https://tiendamstore.com"
                   target="_blank"
-                  rel="noopener noreferrer" // Added for security
+                  rel="noopener noreferrer"
                   className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-medium py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out flex items-center gap-2 w-full md:w-auto justify-center"
                 >
                   <img src={logo} alt="Logo" className="w-7 h-6 text-center" />
@@ -332,5 +352,8 @@ const VideoSection = () => {
     </section>
   );
 };
+
+// Agregamos un cargador para el mapa
+
 
 export default VideoSection;
