@@ -2,58 +2,62 @@ import React, { useRef, useEffect, useState } from "react";
 import video1 from "../../assets/images/large1.mp4";
 import video2 from "../../assets/images/large2.mp4";
 import video3 from "../../assets/images/large3.mp4";
-
 import logo from "../../assets/images/logo.png";
 import { CalendarDays } from "lucide-react";
 
 const VideoSection = () => {
-  const video1Ref = useRef(null);
-  const video2Ref = useRef(null);
-  const video3Ref = useRef(null);
+  const videoRefs = useRef([]);
+  const [playedVideos, setPlayedVideos] = useState({});
 
-  const [hasPlayedVideo1, setHasPlayedVideo1] = useState(false);
-  const [hasPlayedVideo2, setHasPlayedVideo2] = useState(false);
-
+  // Use a single observer for all videos
   useEffect(() => {
-    // Usamos IntersectionObserver para reproducir los videos cuando se encuentren en el viewport
+    // Create a low-priority observer to detect when videos enter viewport
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            // Verificamos cuál video es y lo reproducimos
-            if (entry.target === video1Ref.current && !hasPlayedVideo1) {
-              video1Ref.current
-                .play()
-                .catch((err) =>
-                  console.error("Error al reproducir el video 1:", err)
+            const videoId = entry.target.dataset.videoId;
+            // Only play if not already played
+            if (!playedVideos[videoId]) {
+              // Lazy play with a small timeout to prevent UI blocking
+              setTimeout(() => {
+                entry.target.play().catch(err => 
+                  console.error(`Error playing video ${videoId}:`, err)
                 );
-              setHasPlayedVideo1(true);
-            } else if (entry.target === video2Ref.current && !hasPlayedVideo2) {
-              video2Ref.current
-                .play()
-                .catch((err) =>
-                  console.error("Error al reproducir el video 2:", err)
-                );
-              setHasPlayedVideo2(true);
+                setPlayedVideos(prev => ({ ...prev, [videoId]: true }));
+              }, 100);
             }
           }
         });
       },
-      { threshold: 0.5 }
+      { threshold: 0.1, rootMargin: "50px" } // Lower threshold for earlier loading
     );
 
-    if (video1Ref.current) {
-      observer.observe(video1Ref.current);
-    }
-    if (video2Ref.current) {
-      observer.observe(video2Ref.current);
-    }
+    // Observe all video elements
+    videoRefs.current.forEach(video => {
+      if (video) observer.observe(video);
+    });
 
     return () => {
-      if (video1Ref.current) observer.unobserve(video1Ref.current);
-      if (video2Ref.current) observer.unobserve(video2Ref.current);
+      videoRefs.current.forEach(video => {
+        if (video) observer.unobserve(video);
+      });
     };
-  }, [hasPlayedVideo1, hasPlayedVideo2]);
+  }, [playedVideos]);
+
+  const addVideoRef = (el, index) => {
+    if (el) {
+      el.dataset.videoId = `video-${index}`;
+      videoRefs.current[index] = el;
+    }
+  };
+
+  const handleVisitClick = () => {
+    window.open(
+      "https://wa.me/5491123900395?text=Hola,%20estoy%20interesado%20en%20el%20comprar%20un%20iPhone%20y%20me%20gustaría%20saber%20más%20detalles%20sobre%20los%20productos%20disponibles%20y%20las%20ofertas%20actuales.",
+      "_blank"
+    );
+  };
 
   return (
     <section className="py-16 bg-gradient-to-b from-white to-gray-100">
@@ -61,7 +65,7 @@ const VideoSection = () => {
         <div className="text-center mb-10">
           <h2 className="text-3xl font-bold text-gray-800">Nuestra Oficina</h2>
           <div className="h-1 w-24 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto mt-3"></div>
-          <p className="textt-black text-center text-xl font-bold  mt-4  mx-auto">
+          <p className="textt-black text-center text-xl font-bold mt-4 mx-auto">
             Conoce nuestras instalaciones y el proceso de compra segura que te
             ofrecemos para tu nuevo iPhone
           </p>
@@ -69,20 +73,20 @@ const VideoSection = () => {
 
         {/* Video horizontal que ocupa todo el ancho */}
         <div className="flex flex-col lg:flex-row justify-center items-center gap-4">
+          {/* First video */}
           <div className="w-full rounded-xl overflow-hidden shadow-2xl mb-8">
             <div className="relative aspect-video">
               <h3 className="absolute top-0 left-0 bg-blue-500 text-white px-3 py-1 text-sm rounded-br-lg z-10">
                 Nuestras Instalaciones
               </h3>
               <video
-                ref={video1Ref}
+                ref={(el) => addVideoRef(el, 0)}
                 className="absolute inset-0 object-cover w-full h-full"
-                src={video1}
-                loop
                 muted
                 playsInline
-                preload="auto"
-                title="Oficina M-STORE"
+                preload="none" // Change to 'none' to prevent immediate loading
+                loop
+                poster="/api/placeholder/640/360" // Add a placeholder image
                 controls
               >
                 <source src={video1} type="video/mp4" />
@@ -90,26 +94,27 @@ const VideoSection = () => {
               </video>
             </div>
             <div className="bg-gray-50 rounded-b-lg p-3 text-center">
-              <p className=" textt-black">
+              <p className="textt-black">
                 <span className="text-blue-500">↑</span> Conoce nuestra oficina
                 en el centro de CABA
               </p>
             </div>
           </div>
+
+          {/* Second horizontal video */}
           <div className="w-full rounded-xl overflow-hidden shadow-2xl mb-8">
             <div className="relative aspect-video">
               <h3 className="absolute top-0 left-0 bg-blue-500 text-white px-3 py-1 text-sm rounded-br-lg z-10">
                 Retirá tu iPhone en <span className="font-bold"> M-STORE</span>
               </h3>
               <video
-                ref={video3Ref}
+                ref={(el) => addVideoRef(el, 1)}
                 className="absolute inset-0 object-cover w-full h-full"
-                src={video3}
-                loop
                 muted
                 playsInline
-                preload="auto"
-                title="Oficina M-STORE"
+                preload="none"
+                loop
+                poster="/api/placeholder/640/360"
                 controls
               >
                 <source src={video3} type="video/mp4" />
@@ -117,7 +122,7 @@ const VideoSection = () => {
               </video>
             </div>
             <div className="bg-gray-50 rounded-b-lg p-3 text-center">
-              <p className=" textt-black">
+              <p className="textt-black">
                 <span className="text-blue-500">↑</span> Te invitamos a nuestra
                 oficina en el centro de CABA para retirar tu iPhone.
               </p>
@@ -134,14 +139,13 @@ const VideoSection = () => {
                 Proceso de Compra
               </h3>
               <video
-                ref={video2Ref}
+                ref={(el) => addVideoRef(el, 2)}
                 className="absolute inset-0 object-cover w-full h-full"
-                src={video2}
-                loop
                 muted
                 playsInline
-                preload="auto"
-                title="Proceso de compra"
+                preload="none"
+                loop
+                poster="/api/placeholder/360/640"
                 controls
               >
                 <source src={video2} type="video/mp4" />
@@ -149,7 +153,7 @@ const VideoSection = () => {
               </video>
             </div>
             <div className="bg-gray-50 rounded-b-lg p-3 text-center">
-              <p className=" textt-black">
+              <p className="textt-black">
                 <span className="text-purple-500">↑</span> Conoce el proceso de
                 asesoramiento y compra
               </p>
@@ -159,7 +163,7 @@ const VideoSection = () => {
           {/* Información */}
           <div className="w-full md:w-2/3">
             <div className="bg-white rounded-xl shadow-lg p-8 border border-blue-100 h-full">
-              <h3 className="text-xl text-center lg:text-2xl font-bold text-gray-800 ">
+              <h3 className="text-xl text-center lg:text-2xl font-bold text-gray-800">
                 Visítanos en nuestra oficina
               </h3>
               <div className="h-1 w-24 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto mb-4"></div>
@@ -173,6 +177,7 @@ const VideoSection = () => {
               </p>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Feature boxes */}
                 <div className="flex items-start gap-3">
                   <div className="text-blue-500 mt-1">
                     <svg
@@ -287,19 +292,16 @@ const VideoSection = () => {
                   </div>
                 </div>
               </div>
-              <div
-                className="rounded-2xl shadow-xl h-[250px]  mt-2"
-                data-aos="fade-up"
-                data-aos-duration="500"
-              >
+              
+              {/* Map - lazy loaded */}
+              <div className="rounded-2xl shadow-xl h-64 mt-2">
                 <iframe
                   title="mapa"
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3283.997229234464!2d-58.39003602425973!3d-34.60423157295409!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bccac41f95bf57%3A0xb5d19b7830d5cf6b!2sAv.%20Corrientes%201464%20piso%204%20Oficina%201%2C%20C1042AAN%20Cdad.%20Aut%C3%B3noma%20de%20Buenos%20Aires!5e0!3m2!1ses-419!2sar!4v1743399802839!5m2!1ses-419!2sar"
                   width="100%"
                   height="100%"
                   style={{ border: 0 }}
-                  allowFullScreen=""
-                  loading="lazy"
+                  loading="lazy" // This attribute is already correctly set
                   referrerPolicy="no-referrer-when-downgrade"
                   className="w-full h-full rounded-2xl"
                 ></iframe>
@@ -307,12 +309,7 @@ const VideoSection = () => {
 
               <div className="mt-8 flex flex-col lg:flex-row items-center justify-evenly gap-4">
                 <button
-                  onClick={() =>
-                    window.open(
-                      "https://wa.me/5491123900395?text=Hola,%20estoy%20interesado%20en%20el%20comprar%20un%20iPhone%20y%20me%20gustaría%20saber%20más%20detalles%20sobre%20los%20productos%20disponibles%20y%20las%20ofertas%20actuales.",
-                      "_blank"
-                    )
-                  }
+                  onClick={handleVisitClick}
                   className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-medium py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out flex items-center gap-2 w-full md:w-auto justify-center"
                 >
                   <CalendarDays />
@@ -321,9 +318,10 @@ const VideoSection = () => {
                 <a
                   href="https://tiendamstore.com"
                   target="_blank"
+                  rel="noopener noreferrer" // Added for security
                   className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-medium py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out flex items-center gap-2 w-full md:w-auto justify-center"
                 >
-                  <img src={logo} alt="" className="w-7 h-6 text-center" />
+                  <img src={logo} alt="Logo" className="w-7 h-6 text-center" />
                   Visita Nuestra Tienda Online
                 </a>
               </div>
