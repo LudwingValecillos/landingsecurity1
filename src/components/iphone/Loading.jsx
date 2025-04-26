@@ -42,7 +42,7 @@ function Loading() {
     </div>
     
     {/* Add custom animation for the progress bar */}
-    <style jsx>{`
+    <style>{`
       @keyframes loadingBar {
         0% { width: 0%; }
         50% { width: 70%; }

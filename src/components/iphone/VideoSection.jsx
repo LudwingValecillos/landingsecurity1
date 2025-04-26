@@ -1,12 +1,16 @@
 import React, { useRef, useEffect, useState } from "react";
 import video1 from "../../assets/images/large1.mp4";
 import video2 from "../../assets/images/large2.mp4";
+import video3 from "../../assets/images/large3.mp4";
+
 import logo from "../../assets/images/logo.png";
 import { CalendarDays } from "lucide-react";
 
 const VideoSection = () => {
   const video1Ref = useRef(null);
   const video2Ref = useRef(null);
+  const video3Ref = useRef(null);
+
   const [hasPlayedVideo1, setHasPlayedVideo1] = useState(false);
   const [hasPlayedVideo2, setHasPlayedVideo2] = useState(false);
 
@@ -64,31 +68,60 @@ const VideoSection = () => {
         </div>
 
         {/* Video horizontal que ocupa todo el ancho */}
-        <div className="w-full rounded-xl overflow-hidden shadow-2xl mb-8">
-          <div className="relative aspect-video">
-            <h3 className="absolute top-0 left-0 bg-blue-500 text-white px-3 py-1 text-sm rounded-br-lg z-10">
-              Nuestras Instalaciones
-            </h3>
-            <video
-              ref={video1Ref}
-              className="absolute inset-0 object-cover w-full h-full"
-              src={video1}
-              loop
-              muted
-              playsInline
-              preload="auto"
-              title="Oficina M-STORE"
-              controls
-            >
-              <source src={video1} type="video/mp4" />
-              Tu navegador no soporta el elemento de video.
-            </video>
+        <div className="flex flex-col lg:flex-row justify-center items-center gap-4">
+          <div className="w-full rounded-xl overflow-hidden shadow-2xl mb-8">
+            <div className="relative aspect-video">
+              <h3 className="absolute top-0 left-0 bg-blue-500 text-white px-3 py-1 text-sm rounded-br-lg z-10">
+                Nuestras Instalaciones
+              </h3>
+              <video
+                ref={video1Ref}
+                className="absolute inset-0 object-cover w-full h-full"
+                src={video1}
+                loop
+                muted
+                playsInline
+                preload="auto"
+                title="Oficina M-STORE"
+                controls
+              >
+                <source src={video1} type="video/mp4" />
+                Tu navegador no soporta el elemento de video.
+              </video>
+            </div>
+            <div className="bg-gray-50 rounded-b-lg p-3 text-center">
+              <p className=" textt-black">
+                <span className="text-blue-500">↑</span> Conoce nuestra oficina
+                en el centro de CABA
+              </p>
+            </div>
           </div>
-          <div className="bg-gray-50 rounded-b-lg p-3 text-center">
-            <p className=" textt-black">
-              <span className="text-blue-500">↑</span> Conoce nuestra oficina en
-              el centro de CABA
-            </p>
+          <div className="w-full rounded-xl overflow-hidden shadow-2xl mb-8">
+            <div className="relative aspect-video">
+              <h3 className="absolute top-0 left-0 bg-blue-500 text-white px-3 py-1 text-sm rounded-br-lg z-10">
+                Retirá tu iPhone en <span className="font-bold"> M-STORE</span>
+              </h3>
+              <video
+                ref={video3Ref}
+                className="absolute inset-0 object-cover w-full h-full"
+                src={video3}
+                loop
+                muted
+                playsInline
+                preload="auto"
+                title="Oficina M-STORE"
+                controls
+              >
+                <source src={video3} type="video/mp4" />
+                Tu navegador no soporta el elemento de video.
+              </video>
+            </div>
+            <div className="bg-gray-50 rounded-b-lg p-3 text-center">
+              <p className=" textt-black">
+                <span className="text-blue-500">↑</span> Te invitamos a nuestra
+                oficina en el centro de CABA para retirar tu iPhone.
+              </p>
+            </div>
           </div>
         </div>
 
@@ -257,7 +290,7 @@ const VideoSection = () => {
               <div
                 className="rounded-2xl shadow-xl h-[250px]  mt-2"
                 data-aos="fade-up"
-                data-aos-duration="1000"
+                data-aos-duration="500"
               >
                 <iframe
                   title="mapa"

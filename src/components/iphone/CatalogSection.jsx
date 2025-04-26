@@ -5,11 +5,6 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import mobile1 from '../../assets/images/iphone16.png';
-import mobile2 from '../../assets/images/iphone13azulmedianoche.png';
-import mobile3 from '../../assets/images/Iphone15negro.png';
-import mobile4 from '../../assets/images/iphone16rosa.png';
-import mobile5 from '../../assets/images/iphone16azulultramarino.png';
-import mobile6 from '../../assets/images/iphone16titanionegro.png';
 
 const CatalogSection = ({ products = [] }) => {
   if (!products || products.length === 0) {
@@ -145,7 +140,7 @@ const CatalogSection = ({ products = [] }) => {
         </div>
       </div>
 
-      <style jsx>{`
+      <style >{`
         .mobile-swiper,
         .desktop-swiper {
           padding: 30px 10px;
